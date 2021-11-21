@@ -104,9 +104,9 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   // }
   // else if ...
   // .....
-  // else {
-  //   return new ExternalCommand(cmd_line);
-  // }
+  else {
+    return new ExternalCommand(cmd_line);
+  }
   
   return nullptr;
 }
@@ -128,6 +128,9 @@ Command::Command(const char* cmd_line)
 
 BuiltInCommand::BuiltInCommand(const char* cmd_line)
 {}
+
+ExternalCommand::ExternalCommand(const char* cmd_line) : cmd_line(cmd_line)
+{}
 /**
  * actual commands classes
  * 
@@ -139,4 +142,19 @@ void GetCurrDirCommand::execute()
   char* buf = new char [PATH_MAX] ; 
   std::cout << getcwd(buf, PATH_MAX) << endl;
   delete[] buf;
+}
+void ExternalCommand::execute()
+{
+  pid_t pid = fork();
+  if (pid == 0)
+  {
+    char* const args [2] = {"-c", this->cmd_line};
+    args[0] = "-c";
+    args[1] = this->cmd_line; 
+    execv("/bin/bash", args);
+  }
+  else
+  {
+    wait(NULL);
+  }
 }
