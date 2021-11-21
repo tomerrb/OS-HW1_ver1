@@ -148,9 +148,11 @@ void ExternalCommand::execute()
   pid_t pid = fork();
   if (pid == 0)
   {
-    char* const args [2] = {"-c", this->cmd_line};
-    args[0] = "-c";
-    args[1] = this->cmd_line; 
+        char* temp = new char[strlen(this -> cmd_line)];
+        strcpy(temp, this -> cmd_line);
+        char* args[]= {"bash", "-c", temp, NULL};
+//    args[0] = "-c";
+//    args[1] = this->cmd_line;
     execv("/bin/bash", args);
   }
   else
