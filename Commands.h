@@ -8,9 +8,12 @@
 
 class Command {
 // TODO: Add your data members
+ private:
+  
  public:
+  Command() = default;
   Command(const char* cmd_line);
-  virtual ~Command();
+  virtual ~Command() = default;
   virtual void execute() = 0;
   //virtual void prepare();
   //virtual void cleanup();
@@ -18,9 +21,12 @@ class Command {
 };
 
 class BuiltInCommand : public Command {
+ private:
+  
  public:
+  BuiltInCommand() = default;
   BuiltInCommand(const char* cmd_line);
-  virtual ~BuiltInCommand() {}
+  virtual ~BuiltInCommand() =default;
 };
 
 class ExternalCommand : public Command {
@@ -58,7 +64,7 @@ class ChangeDirCommand : public BuiltInCommand {
 class GetCurrDirCommand : public BuiltInCommand {
  public:
   GetCurrDirCommand(const char* cmd_line);
-  virtual ~GetCurrDirCommand() {}
+  virtual ~GetCurrDirCommand() = default;
   void execute() override;
 };
 
