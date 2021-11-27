@@ -157,7 +157,8 @@ extern std::string small_shell_name;
 ChangePromptCommand::ChangePromptCommand(const char* cmd_line):cmd_line(cmd_line){}
 void ChangePromptCommand::execute(){
     char** args;
-    _parseCommandLine(cmd_line, args);
+    int args_num = _parseCommandLine(cmd_line, args);
+    std::cout << "args_num is " << args_num;
     small_shell_name = string(args[1]);
 }
 
