@@ -99,6 +99,10 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   if (firstWord.compare("pwd") == 0) {
     return new GetCurrDirCommand(cmd_line);
   }
+  else if (firstWord.compare("cd") == 0)
+  {
+    return new ChangeDirCommand(cmd_line, nullptr);
+  }
   // else if (firstWord.compare("showpid") == 0) {
   //   return new ShowPidCommand(cmd_line);
   // }
@@ -115,7 +119,16 @@ void SmallShell::executeCommand(const char *cmd_line) {
   // TODO: Add your implementation here
   // for example:
   Command* cmd = CreateCommand(cmd_line);
-  cmd->execute();
+  try
+  {
+    cmd->execute();
+  }
+  catch(const std::exception& e)
+  {
+    std::cout << e.what() << '\n';
+  }
+  
+  
   // Please note that you must fork smash process for some commands (e.g., external commands....)
 }
 
@@ -143,6 +156,51 @@ void GetCurrDirCommand::execute()
   std::cout << getcwd(buf, PATH_MAX) << endl;
   delete[] buf;
 }
+
+ChangeDirCommand::ChangeDirCommand(const char* cmd_line, char** plastPwd): cmd_line(cmd_line), prevPwd(plastPwd)
+{}
+
+void ChangeDirCommand::execute()
+{
+  
+  char** cmd_args = new char* [COMMAND_MAX_ARGS];
+  int args_num = _parseCommandLine(this->cmd_line, cmd_args);
+  if (args_num > 2)
+  {
+    delete[] cmd_args;
+    throw std::invalid_argument("smash error: cd: too many arguments");
+  }
+
+  if (strcmp(cmd_args[1], "-") != 0)
+  {
+    char* buf = new char [PATH_MAX] ;
+    *prevPwd = getcwd(buf, PATH_MAX);
+    char* new_pwd = cmd_args[1];
+    int ret = chdir(new_pwd);
+    delete[] buf;
+    if (ret == -1)
+    {
+      delete[] cmd_args;
+      perror("smash error: cd failed");
+    }
+  }
+  else
+  {
+    if (!prevPwd)
+    {
+      delete[] cmd_args;
+      throw std::invalid_argument("smash error: cd: OLDPWD not set");
+    }
+    int ret = chdir(*prevPwd);
+    if (ret == -1)
+    {
+      delete[] cmd_args;
+      perror("smash error: cd failed");
+    }
+  }
+  delete[] cmd_args;
+}
+
 void ExternalCommand::execute()
 {
   pid_t pid = fork();

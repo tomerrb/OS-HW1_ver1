@@ -57,6 +57,10 @@ class RedirectionCommand : public Command {
 };
 
 class ChangeDirCommand : public BuiltInCommand {
+  private:
+  const char* cmd_line;
+  char** prevPwd;
+  public:
 // TODO: Add your data members public:
   ChangeDirCommand(const char* cmd_line, char** plastPwd);
   virtual ~ChangeDirCommand() {}
