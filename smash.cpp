@@ -6,7 +6,7 @@
 #include "signals.h"
 #include "string.h"
 
-std::string small_shell_name = "smash";
+std::string small_shell_name = INIT_SMALL_SHELL_NAME;
 
 int main(int argc, char* argv[]) {
 //    if(signal(SIGTSTP , ctrlZHandler)==SIG_ERR) {
