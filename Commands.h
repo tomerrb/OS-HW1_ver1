@@ -2,9 +2,13 @@
 #define SMASH_COMMAND_H_
 
 #include <vector>
+#include <string.h>
+#include <iostream>
 
 #define COMMAND_ARGS_MAX_LENGTH (200)
 #define COMMAND_MAX_ARGS (20)
+
+#define INIT_CHROMPT_NAME "smash"
 
 class Command {
 // TODO: Add your data members
@@ -73,7 +77,7 @@ class GetCurrDirCommand : public BuiltInCommand {
 class ShowPidCommand : public BuiltInCommand {
  public:
   ShowPidCommand(const char* cmd_line);
-  virtual ~ShowPidCommand() {}
+  virtual ~ShowPidCommand() = default;
   void execute() override;
 };
 
@@ -152,6 +156,7 @@ class SmallShell {
  private:
   // TODO: Add your data members
   SmallShell();
+  std::string chrompt_name = INIT_CHROMPT_NAME;
  public:
   Command *CreateCommand(const char* cmd_line);
   SmallShell(SmallShell const&)      = delete; // disable copy ctor
@@ -164,7 +169,16 @@ class SmallShell {
   }
   ~SmallShell();
   void executeCommand(const char* cmd_line);
+  friend Command* ChangeChromptName(const char* cmd_line, SmallShell* sh_ptr);
+  friend std::ostream& operator<<(std::ostream& os, const SmallShell& sh);
   // TODO: add extra methods as needed
+};
+
+class ChangeChromptName : public BuiltInCommand {
+public:
+    ChangeChromptName(const char* cmd_line);
+    virtual ~ChangeChromptName() = default;
+    void execute(SmallShell& sh);
 };
 
 #endif //SMASH_COMMAND_H_

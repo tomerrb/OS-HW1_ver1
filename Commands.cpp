@@ -88,6 +88,12 @@ SmallShell::~SmallShell() {
 // TODO: add your implementation
 }
 
+std::ostream& operator<<(std::ostream& os, const SmallShell& sh)
+{
+    os << sh.chrompt_name;
+    return os;
+}
+
 /**
 * Creates and returns a pointer to Command class which matches the given command line (cmd_line)
 */
@@ -99,9 +105,12 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   if (firstWord.compare("pwd") == 0) {
     return new GetCurrDirCommand(cmd_line);
   }
-  // else if (firstWord.compare("showpid") == 0) {
-  //   return new ShowPidCommand(cmd_line);
-  // }
+   else if (firstWord.compare("showpid") == 0) {
+     return new ShowPidCommand(cmd_line);
+   }
+   else if (firstWord.compare("chprompt") == 0) {
+     return new ChangeChromptName(cmd_line, this);
+   }
   // else if ...
   // .....
   else {
@@ -118,6 +127,13 @@ void SmallShell::executeCommand(const char *cmd_line) {
   cmd->execute();
   // Please note that you must fork smash process for some commands (e.g., external commands....)
 }
+
+//int SmallShell::ChangeChromptName(const char *cmd_line, SmallShell& sh) {
+//    char** args;
+//    _parseCommandLine(cmd_line, args);
+//    this -> chrompt_name = string(args[1]);
+//    return 0;
+//}
 
 
 /**
@@ -143,6 +159,20 @@ void GetCurrDirCommand::execute()
   std::cout << getcwd(buf, PATH_MAX) << endl;
   delete[] buf;
 }
+
+ShowPidCommand::ShowPidCommand(const char* cmd_line){}
+void ShowPidCommand::execute(){
+    std::cout << "smash pid is " << getpid() << endl;
+}
+
+ChangeChromptName::ChangeChromptName(const char* cmd_line){}
+void ChangeChromptName::execute(){
+    char** args;
+    _parseCommandLine(cmd_line, args);
+    sh.chrompt_name = string(args[1]);
+    return 0;
+}
+
 void ExternalCommand::execute()
 {
   pid_t pid = fork();
