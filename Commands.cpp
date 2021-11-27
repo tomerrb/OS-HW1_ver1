@@ -164,6 +164,7 @@ void ChangePromptCommand::execute(){
     }else{
         small_shell_name = string(args[1]);
     }
+    delete[] args;
 }
 
 void ExternalCommand::execute()

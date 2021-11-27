@@ -5,6 +5,7 @@
 
 #define COMMAND_ARGS_MAX_LENGTH (200)
 #define COMMAND_MAX_ARGS (20)
+#define INIT_SMALL_SHELL_NAME "smash"
 
 class Command {
 // TODO: Add your data members
