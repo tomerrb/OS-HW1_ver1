@@ -119,6 +119,7 @@ public:
   public:
    JobEntry(int jobID, string cmd_line, int processID, time_t begin_time);
    bool operator<(JobEntry const& je) const;
+      bool operator==(JobEntry const& je) const;
    int getJobID(){return jobID;};
    string getCMDLine(){return cmd_line;};
    int getProcessID(){return processID;};

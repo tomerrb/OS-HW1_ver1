@@ -130,6 +130,7 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
 void SmallShell::executeCommand(const char *cmd_line) {
   // TODO: Add your implementation here
   // for example:
+  this->jobs.removeFinishedJobs();
   Command* cmd = CreateCommand(cmd_line);
   if(cmd->isExternal()){
       pid_t pid = fork();
@@ -193,13 +194,22 @@ void JobsList::addJob(Command *cmd, bool isStopped) {
 }
 
 JobsList::JobEntry* JobsList::getLastJob(int* lastJobId){
-    JobsList::JobEntry* result = &*jobs.rbegin();
-    *lastJobId = result -> getJobID();
-    return result;
+    if(this->jobs.empty()){
+        *lastJobId = 0;
+        return nullptr;
+    }else {
+        JobsList::JobEntry *result = &*jobs.rbegin();
+        *lastJobId = result->getJobID();
+        return result;
+    }
 }
 
 bool JobsList::JobEntry::operator<(JobEntry const& je) const{
     return this->jobID < je.jobID;
+}
+
+bool JobsList::JobEntry::operator==(JobEntry const& je) const{
+    return this->jobID == je.jobID;
 }
 
 /**
@@ -309,6 +319,7 @@ void ExternalCommand::execute()
     }
     char* args[]= {"bash", "-c", temp, NULL};
     execv("/bin/bash", args);
+    exit(0);
 }
 
 BuiltInCommand::BuiltInCommand(){
@@ -321,3 +332,15 @@ ExternalCommand::ExternalCommand(){
 
 JobsList::JobEntry::JobEntry(int jobID, string cmd_line, int processID, time_t begin_time):
 jobID(jobID),cmd_line(cmd_line), processID(processID), begin_time(begin_time), stopped(false){}
+
+void JobsList::removeFinishedJobs(){
+    int status;
+    std::list<JobEntry>::iterator it;
+    for (it = jobs.begin(); it != jobs.end(); ++it){
+        if (waitpid(it->getProcessID(), &status, WNOHANG) > 0){
+            JobEntry temp = *it;
+            ++it;
+            this->jobs.remove(temp);
+        }
+    }
+}
