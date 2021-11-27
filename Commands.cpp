@@ -135,7 +135,12 @@ void SmallShell::executeCommand(const char *cmd_line) {
       pid_t pid = fork();
       if (pid == 0) {
           // This is the child.
-          cmd->execute();
+          try {
+              cmd->execute();
+          }
+          catch(const std::exception& e) {
+              std::cout << e.what() << '\n';
+          }
       }
       else
       {
@@ -148,15 +153,14 @@ void SmallShell::executeCommand(const char *cmd_line) {
               wait(NULL);
           }
       }
+  }else{
+      try {
+          cmd->execute();
+      }
+      catch(const std::exception& e) {
+          std::cout << e.what() << '\n';
+      }
   }
-  try {
-    cmd->execute();
-  }
-  catch(const std::exception& e) {
-    std::cout << e.what() << '\n';
-  }
-  
-  
   // Please note that you must fork smash process for some commands (e.g., external commands....)
 }
 
