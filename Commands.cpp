@@ -23,6 +23,8 @@ using namespace std;
 #endif
 #define WHITESPACE " "
 
+char* prevPwd = nullptr; // new char*[PATH_MAX];
+
 string _ltrim(const std::string& s)
 {
   size_t start = s.find_first_not_of(WHITESPACE);
@@ -157,7 +159,7 @@ void GetCurrDirCommand::execute()
   delete[] buf;
 }
 
-ChangeDirCommand::ChangeDirCommand(const char* cmd_line, char** plastPwd): cmd_line(cmd_line), prevPwd(plastPwd)
+ChangeDirCommand::ChangeDirCommand(const char* cmd_line, char** plastPwd): cmd_line(cmd_line)
 {}
 
 void ChangeDirCommand::execute()
@@ -174,10 +176,14 @@ void ChangeDirCommand::execute()
   if (strcmp(cmd_args[1], "-") != 0)
   {
     char* buf = new char [PATH_MAX] ;
-    *prevPwd = getcwd(buf, PATH_MAX);
+    getcwd(buf, PATH_MAX);
+    if(prevPwd != nullptr) {
+        delete[] prevPwd;
+    }
+    prevPwd = buf;
     char* new_pwd = cmd_args[1];
     int ret = chdir(new_pwd);
-    delete[] buf;
+//    delete[] buf;
     if (ret == -1)
     {
       delete[] cmd_args;
@@ -191,7 +197,9 @@ void ChangeDirCommand::execute()
       delete[] cmd_args;
       throw std::invalid_argument("smash error: cd: OLDPWD not set");
     }
-    int ret = chdir(*prevPwd);
+    int ret = chdir(prevPwd);
+    delete[] prevPwd;
+    prevPwd = nullptr;
     if (ret == -1)
     {
       delete[] cmd_args;
