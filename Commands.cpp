@@ -99,9 +99,9 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   if (firstWord.compare("pwd") == 0) {
     return new GetCurrDirCommand(cmd_line);
   }
-  // else if (firstWord.compare("showpid") == 0) {
-  //   return new ShowPidCommand(cmd_line);
-  // }
+   else if (firstWord.compare("showpid") == 0) {
+     return new ShowPidCommand(cmd_line);
+   }
   // else if ...
   // .....
   else {
@@ -143,6 +143,12 @@ void GetCurrDirCommand::execute()
   std::cout << getcwd(buf, PATH_MAX) << endl;
   delete[] buf;
 }
+
+ShowPidCommand::ShowPidCommand(const char* cmd_line){}
+void ShowPidCommand::execute(){
+    std::cout << "smash pid is " << getpid() << endl;
+}
+
 void ExternalCommand::execute()
 {
   pid_t pid = fork();
