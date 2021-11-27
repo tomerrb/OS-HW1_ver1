@@ -102,6 +102,9 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
    else if (firstWord.compare("showpid") == 0) {
      return new ShowPidCommand(cmd_line);
    }
+  else if (firstWord.compare("chprompt") == 0) {
+      return new ChangePromptCommand(cmd_line);
+  }
   // else if ...
   // .....
   else {
@@ -147,6 +150,15 @@ void GetCurrDirCommand::execute()
 ShowPidCommand::ShowPidCommand(const char* cmd_line){}
 void ShowPidCommand::execute(){
     std::cout << "smash pid is " << getpid() << endl;
+}
+
+extern std::string small_shell_name;
+
+ChangePromptCommand::ChangePromptCommand(const char* cmd_line):cmd_line(cmd_line){}
+void ChangePromptCommand::execute(){
+    char** args;
+    _parseCommandLine(cmd_line, args);
+    small_shell_name = string(args[1]);
 }
 
 void ExternalCommand::execute()

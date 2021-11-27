@@ -9,7 +9,6 @@
 class Command {
 // TODO: Add your data members
  private:
-  
  public:
   Command() = default;
   Command(const char* cmd_line);
@@ -75,6 +74,15 @@ class ShowPidCommand : public BuiltInCommand {
   ShowPidCommand(const char* cmd_line);
   virtual ~ShowPidCommand() {}
   void execute() override;
+};
+
+class ChangePromptCommand : public BuiltInCommand {
+private:
+    const char* cmd_line;
+public:
+    ChangePromptCommand(const char* cmd_line);
+    virtual ~ChangePromptCommand() {}
+    void execute() override;
 };
 
 class JobsList;
