@@ -1,7 +1,11 @@
 #ifndef SMASH_COMMAND_H_
 #define SMASH_COMMAND_H_
 
-#include <vector>
+#include <list>
+#include <string.h>
+#include <time.h>
+using std::string;
+using std::list;
 
 #define COMMAND_ARGS_MAX_LENGTH (200)
 #define COMMAND_MAX_ARGS (20)
@@ -9,12 +13,19 @@
 
 class Command {
 // TODO: Add your data members
- private:
+protected:
+    pid_t pid;
+    const char* cmd_line;
+    bool is_external;
  public:
   Command() = default;
   Command(const char* cmd_line);
   virtual ~Command() = default;
   virtual void execute() = 0;
+  bool isExternal(){return is_external;};
+  void changePID(pid_t pid){this -> pid = pid;};
+  pid_t getPID(){return pid;};
+  const char* getCMDLine(){return cmd_line;};
   //virtual void prepare();
   //virtual void cleanup();
   // TODO: Add your extra methods if needed
@@ -24,16 +35,15 @@ class BuiltInCommand : public Command {
  private:
   
  public:
-  BuiltInCommand() = default;
+  BuiltInCommand();
   BuiltInCommand(const char* cmd_line);
   virtual ~BuiltInCommand() =default;
 };
 
 class ExternalCommand : public Command {
- private:
-  const char* cmd_line;
  public:
   ExternalCommand(const char* cmd_line);
+  ExternalCommand();
   virtual ~ExternalCommand() {}
   void execute() override;
 };
@@ -97,18 +107,30 @@ class QuitCommand : public BuiltInCommand {
   void execute() override;
 };
 
-
-
-
 class JobsList {
- public:
+public:
   class JobEntry {
-   // TODO: Add your data members
+  private:
+   int jobID;
+   string cmd_line;
+   int processID;
+   time_t begin_time;
+   bool stopped;
+  public:
+   JobEntry(int jobID, string cmd_line, int processID, time_t begin_time);
+   bool operator<(JobEntry const& je) const;
+   int getJobID(){return jobID;};
+   string getCMDLine(){return cmd_line;};
+   int getProcessID(){return processID;};
+   time_t getBeginTime(){return begin_time;};
+   bool isStopped(){return stopped;};
   };
- // TODO: Add your data members
- public:
-  JobsList();
-  ~JobsList();
+private:
+    list<JobEntry> jobs;
+    int nextJobID;
+public:
+  JobsList() = default;
+  ~JobsList() = default;
   void addJob(Command* cmd, bool isStopped = false);
   void printJobsList();
   void killAllJobs();
@@ -121,7 +143,8 @@ class JobsList {
 };
 
 class JobsCommand : public BuiltInCommand {
- // TODO: Add your data members
+private:
+    JobsList* jobs;
  public:
   JobsCommand(const char* cmd_line, JobsList* jobs);
   virtual ~JobsCommand() {}
@@ -162,9 +185,9 @@ class HeadCommand : public BuiltInCommand {
 
 class SmallShell {
  private:
-  // TODO: Add your data members
-  SmallShell();
+  JobsList jobs;
  public:
+    SmallShell() = default;
   Command *CreateCommand(const char* cmd_line);
   SmallShell(SmallShell const&)      = delete; // disable copy ctor
   void operator=(SmallShell const&)  = delete; // disable = operator
@@ -174,7 +197,7 @@ class SmallShell {
     // Instantiated on first use.
     return instance;
   }
-  ~SmallShell();
+  ~SmallShell() = default;
   void executeCommand(const char* cmd_line);
   // TODO: add extra methods as needed
 };

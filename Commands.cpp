@@ -82,13 +82,13 @@ void _removeBackgroundSign(char* cmd_line) {
 
 // TODO: Add your implementation for classes in Commands.h 
 
-SmallShell::SmallShell() {
-// TODO: add your implementation
-}
-
-SmallShell::~SmallShell() {
-// TODO: add your implementation
-}
+//SmallShell::SmallShell() {
+//// TODO: add your implementation
+//}
+//
+//SmallShell::~SmallShell() {
+//// TODO: add your implementation
+//}
 
 /**
 * Creates and returns a pointer to Command class which matches the given command line (cmd_line)
@@ -111,6 +111,10 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   {
     return new ChangeDirCommand(cmd_line, nullptr);
   }
+  else if (firstWord.compare("jobs") == 0)
+  {
+      return new JobsCommand(cmd_line, &(this->jobs));
+  }
   
   // else if ...
   // .....
@@ -121,16 +125,34 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   return nullptr;
 }
 
+
+
 void SmallShell::executeCommand(const char *cmd_line) {
   // TODO: Add your implementation here
   // for example:
   Command* cmd = CreateCommand(cmd_line);
-  try
-  {
+  if(cmd->isExternal()){
+      pid_t pid = fork();
+      if (pid == 0) {
+          // This is the child.
+          cmd->execute();
+      }
+      else
+      {
+          // This is the parent process.
+          if(_isBackgroundComamnd(cmd_line)){
+              // add to job list
+              cmd -> changePID(pid);
+              this -> jobs.addJob(cmd);
+          }else{
+              wait(NULL);
+          }
+      }
+  }
+  try {
     cmd->execute();
   }
-  catch(const std::exception& e)
-  {
+  catch(const std::exception& e) {
     std::cout << e.what() << '\n';
   }
   
@@ -138,6 +160,43 @@ void SmallShell::executeCommand(const char *cmd_line) {
   // Please note that you must fork smash process for some commands (e.g., external commands....)
 }
 
+JobsCommand::JobsCommand(const char* cmd_line, JobsList* jobs): jobs(jobs){}
+
+void JobsCommand::execute(){
+    jobs->printJobsList();
+}
+
+void JobsList::printJobsList() {
+    std::list<JobEntry>::iterator it;
+    for (it = jobs.begin(); it != jobs.end(); ++it){
+        std::cout << "[" << it-> getJobID() << "] " << it -> getCMDLine() << " : "
+        << it -> getProcessID() << " " << difftime(time(NULL), it -> getBeginTime())
+        << " secs";
+        if(it->isStopped()) {
+            std::cout << " (stopped)";
+        }
+        std::cout << endl;
+    }
+}
+
+void JobsList::addJob(Command *cmd, bool isStopped) {
+    int new_job_id;
+    this->getLastJob(&new_job_id);
+    new_job_id++;
+    JobEntry je = JobEntry(new_job_id, cmd->getCMDLine(), cmd->getPID(), time(NULL));
+    this -> jobs.push_back(je);//.insert(je);
+    this -> jobs.sort();
+}
+
+JobsList::JobEntry* JobsList::getLastJob(int* lastJobId){
+    JobsList::JobEntry* result = &*jobs.rbegin();
+    *lastJobId = result -> getJobID();
+    return result;
+}
+
+bool JobsList::JobEntry::operator<(JobEntry const& je) const{
+    return this->jobID < je.jobID;
+}
 
 /**
  * commands types classes
@@ -145,11 +204,14 @@ void SmallShell::executeCommand(const char *cmd_line) {
 Command::Command(const char* cmd_line)
 {}
 
-BuiltInCommand::BuiltInCommand(const char* cmd_line)
-{}
+BuiltInCommand::BuiltInCommand(const char* cmd_line){
+    this -> is_external = false;
+}
 
-ExternalCommand::ExternalCommand(const char* cmd_line) : cmd_line(cmd_line)
-{}
+ExternalCommand::ExternalCommand(const char* cmd_line){
+    this -> cmd_line = cmd_line;
+    this -> is_external = true;
+}
 /**
  * actual commands classes
  * 
@@ -235,18 +297,23 @@ void ChangeDirCommand::execute()
 
 void ExternalCommand::execute()
 {
-  pid_t pid = fork();
-  if (pid == 0)
-  {
-        char* temp = new char[strlen(this -> cmd_line)];
-        strcpy(temp, this -> cmd_line);
-        char* args[]= {"bash", "-c", temp, NULL};
-//    args[0] = "-c";
-//    args[1] = this->cmd_line;
+    // This is the child process.
+    char *temp = new char[strlen(this->cmd_line)];
+    strcpy(temp, this->cmd_line);
+    if (_isBackgroundComamnd(temp)) {
+        _removeBackgroundSign(temp);
+    }
+    char* args[]= {"bash", "-c", temp, NULL};
     execv("/bin/bash", args);
-  }
-  else
-  {
-    wait(NULL);
-  }
 }
+
+BuiltInCommand::BuiltInCommand(){
+    this -> is_external = false;
+}
+
+ExternalCommand::ExternalCommand(){
+    this -> is_external = true;
+}
+
+JobsList::JobEntry::JobEntry(int jobID, string cmd_line, int processID, time_t begin_time):
+jobID(jobID),cmd_line(cmd_line), processID(processID), begin_time(begin_time), stopped(false){}
