@@ -604,11 +604,13 @@ jobID(jobID),cmd_line(cmd_line), processID(processID), begin_time(begin_time), s
 void JobsList::removeFinishedJobs(){
     int status;
     std::list<JobEntry>::iterator it;
-    for (it = jobs.begin(); it != jobs.end(); ++it){
+    for (it = jobs.begin(); it != jobs.end(); ){
         if (waitpid(it->getProcessID(), &status, WNOHANG) > 0){
             JobEntry temp = *it;
-//            ++it;
+            ++it;
             this->jobs.remove(temp);
+        }else{
+            ++it;
         }
     }
 }
