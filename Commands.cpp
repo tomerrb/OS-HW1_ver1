@@ -7,6 +7,7 @@
 #include <iomanip>
 #include "Commands.h"
 #include <limits.h>
+#include <algorithm>
 
 
 using namespace std;
@@ -115,6 +116,10 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   {
       return new JobsCommand(cmd_line, &(this->jobs));
   }
+  else if (firstWord.compare("kill") == 0)
+  {
+      return new KillCommand(cmd_line, &(this->jobs));
+  }
   
   // else if ...
   // .....
@@ -136,6 +141,7 @@ void SmallShell::executeCommand(const char *cmd_line) {
       pid_t pid = fork();
       if (pid == 0) {
           // This is the child.
+          setpgrp();
           try {
               cmd->execute();
           }
@@ -169,6 +175,53 @@ JobsCommand::JobsCommand(const char* cmd_line, JobsList* jobs): jobs(jobs){}
 
 void JobsCommand::execute(){
     jobs->printJobsList();
+}
+
+JobsList::JobEntry* JobsList::getJobById(int jobId){
+    JobsList::JobEntry temp(jobId, "temp", 0, time(NULL));
+    std::list<JobsList::JobEntry>::iterator it;
+    it = std::find(this -> jobs.begin(),this -> jobs.end(), temp);
+    return &(*it);
+}
+
+KillCommand::KillCommand(const char* cmd_line, JobsList* jobs): jobs(jobs){
+    this -> cmd_line = cmd_line;
+}
+
+void KillCommand::execute(){
+    char** cmd_args = new char* [COMMAND_MAX_ARGS];
+    int args_num = _parseCommandLine(this->cmd_line, cmd_args);
+    if (args_num != 3) {
+        delete[] cmd_args;
+        throw std::invalid_argument("smash error: kill: invalid arguments");
+    }
+
+    int job_id_to_kill = atoi(cmd_args[2]);
+
+    JobsList::JobEntry* je_ptr = this -> jobs -> getJobById(job_id_to_kill);
+
+    if(je_ptr == NULL){
+        delete[] cmd_args;
+        string err_msg = "smash error: kill: job-id " + to_string(job_id_to_kill) + " does not exist";
+        throw std::invalid_argument(err_msg);
+    }
+
+    string sig_str = string(cmd_args[1]);
+    sig_str = sig_str.substr(1);
+
+    int signum = stoi(sig_str);
+    pid_t pid_to_kill = je_ptr -> getProcessID();
+
+    int result = kill(pid_to_kill, signum);
+
+    if(result != 0){
+        delete[] cmd_args;
+        perror("smash error: kill failed");
+    } else{
+       std::cout << "signal number " << signum << " was sent to pid " << pid_to_kill << endl;
+    }
+
+    delete[] cmd_args;
 }
 
 void JobsList::printJobsList() {
@@ -215,10 +268,12 @@ bool JobsList::JobEntry::operator==(JobEntry const& je) const{
 /**
  * commands types classes
  */
-Command::Command(const char* cmd_line)
-{}
+Command::Command(const char* cmd_line){
+    this -> cmd_line = cmd_line;
+}
 
 BuiltInCommand::BuiltInCommand(const char* cmd_line){
+    this -> cmd_line = cmd_line;
     this -> is_external = false;
 }
 
