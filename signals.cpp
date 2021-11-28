@@ -32,7 +32,7 @@ void ctrlZHandler(int sig_num) {
     smash.addJobEntry(je, true);
     kill(smash.getFGJobEntry().getProcessID(), SIGTSTP);
 
-    std::cout << "smash: process " << smash.getFGJobEntry().getProcessID() << " was stopped";
+    std::cout << "smash: process " << smash.getFGJobEntry().getProcessID() << " was stopped" << endl;
 }
 
 void ctrlCHandler(int sig_num) {

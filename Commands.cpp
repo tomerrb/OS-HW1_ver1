@@ -169,9 +169,9 @@ void SmallShell::executeCommand(const char *cmd_line) {
               cmd -> changePID(pid);
               this -> jobs.addJob(cmd);
           }else{
-              JobsList::JobEntry je =
-              this->fgJobEntry = JobsList::JobEntry(0, cmd->getCMDLine(), cmd->getPID(), time(NULL));
-              wait(NULL);
+              this->fgJobEntry = JobsList::JobEntry(0, cmd->getCMDLine(), pid, time(NULL));
+              int status;
+              waitpid(pid, &status, WUNTRACED);
           }
       }
   }else{
@@ -329,11 +329,13 @@ void ForegroundCommand::execute(){
         delete[] cmd_args;
         perror("smash error: kill failed");
     } else{
-        std::cout << cmd_line << " : " << pid_to_fg << endl;
+        std::cout << je_ptr -> getCMDLine() << " : " << pid_to_fg << endl;
     }
     delete[] cmd_args;
 
-    waitid(P_PID, pid_to_fg, NULL, WCONTINUED);
+//    waitid(P_PID, pid_to_fg, NULL, WCONTINUED);
+    int status;
+    waitpid(pid_to_fg, &status, WUNTRACED);
 
 }
 
