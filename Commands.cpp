@@ -25,6 +25,8 @@ using namespace std;
 #define WHITESPACE " "
 
 char* prevPwd = nullptr; // new char*[PATH_MAX];
+pid_t fg_pid = 0;
+char* fg_cmd_line = nullptr;
 
 string _ltrim(const std::string& s)
 {
@@ -169,6 +171,13 @@ void SmallShell::executeCommand(const char *cmd_line) {
               cmd -> changePID(pid);
               this -> jobs.addJob(cmd);
           }else{
+              fg_pid = pid;
+              if(fg_cmd_line != nullptr){
+                  delete[] fg_cmd_line;
+              }
+              fg_cmd_line = new char[strlen(cmd_line)];
+              strcpy(fg_cmd_line, cmd_line);
+
               wait(NULL);
           }
       }
@@ -329,6 +338,12 @@ void ForegroundCommand::execute(){
         std::cout << cmd_line << " : " << pid_to_fg << endl;
     }
     delete[] cmd_args;
+    fg_pid = pid_to_fg;
+    if(fg_cmd_line != nullptr){
+        delete[] fg_cmd_line;
+    }
+    fg_cmd_line = new char[strlen(cmd_line)];
+    strcpy(fg_cmd_line, cmd_line);
     waitid(P_PID, pid_to_fg, NULL, WCONTINUED);
 
 }
