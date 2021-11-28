@@ -124,6 +124,10 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   {
       return new ForegroundCommand(cmd_line, &(this->jobs));
   }
+  else if (firstWord.compare("bg") == 0)
+  {
+      return new BackgroundCommand(cmd_line, &(this->jobs));
+  }
   
   // else if ...
   // .....
@@ -253,7 +257,7 @@ void ForegroundCommand::execute(){
 
         if (!(isDigits(cmd_args[1]))){
             delete[] cmd_args;
-            string err_msg = "smash error: kill: invalid arguments";
+            string err_msg = "smash error: fg: invalid arguments";
             throw std::invalid_argument(err_msg);
         }
 
@@ -293,6 +297,89 @@ void ForegroundCommand::execute(){
     delete[] cmd_args;
     waitid(P_PID, pid_to_fg, NULL, WCONTINUED);
 
+}
+
+BackgroundCommand::BackgroundCommand(const char* cmd_line, JobsList* jobs): jobs(jobs){
+    this -> cmd_line = cmd_line;
+}
+
+void BackgroundCommand::execute(){
+    char** cmd_args = new char* [COMMAND_MAX_ARGS];
+    int args_num = _parseCommandLine(this->cmd_line, cmd_args);
+    if (args_num > 2) {
+        delete[] cmd_args;
+        throw std::invalid_argument("smash error: bg: invalid arguments");
+    }
+
+    int job_id_to_bg;
+    JobsList::JobEntry* je_ptr;
+
+    if(args_num == 2){
+
+        if (!(isDigits(cmd_args[1]))){
+            delete[] cmd_args;
+            string err_msg = "smash error: kill: invalid arguments";
+            throw std::invalid_argument(err_msg);
+        }
+
+        job_id_to_bg = atoi(cmd_args[1]);
+
+        je_ptr = this -> jobs -> getJobById(job_id_to_bg);
+
+        if(je_ptr == NULL){
+            delete[] cmd_args;
+            string err_msg = "smash error: bg: job-id " + to_string(job_id_to_bg) + " does not exist";
+            throw std::invalid_argument(err_msg);
+        }else if(!(je_ptr->isStopped())){
+            delete[] cmd_args;
+            string err_msg = "smash error: bg: job-id " + to_string(job_id_to_bg) + " is already running in the background";
+            throw std::invalid_argument(err_msg);
+        }
+    } else {
+        if(this -> jobs->isEmpty()){
+            delete[] cmd_args;
+            string err_msg = "smash error: bg: jobs list is empty";
+            throw std::invalid_argument(err_msg);
+        }
+
+        je_ptr = this -> jobs -> getLastStoppedJob(&job_id_to_bg);
+
+        if(je_ptr == NULL){
+            delete[] cmd_args;
+            string err_msg = "smash error: bg: there is no stopped jobs to resume";
+            throw std::invalid_argument(err_msg);
+        }
+
+    }
+
+    pid_t pid_to_bg = je_ptr -> getProcessID();
+    string cmd_line = je_ptr -> getCMDLine();
+
+    std::cout << cmd_line << " : " << pid_to_bg << endl;
+    int result = kill(pid_to_bg, SIGCONT);
+
+    if(result != 0){
+        delete[] cmd_args;
+        perror("smash error: kill failed");
+    }
+
+    // Change stopped status in JobsList;
+    je_ptr -> resume();
+
+    delete[] cmd_args;
+    waitid(P_PID, pid_to_bg, NULL, WCONTINUED);
+
+}
+
+JobsList::JobEntry* JobsList::getLastStoppedJob(int *jobId){
+    std::list<JobEntry>::reverse_iterator it;
+    for(it = this -> jobs.rbegin(); it != this -> jobs.rend(); ++it){
+        if(it->isStopped()) {
+            return &*it;
+        }
+    }
+
+    return NULL;
 }
 
 void JobsList::printJobsList() {

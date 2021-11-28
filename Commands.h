@@ -119,12 +119,14 @@ public:
   public:
    JobEntry(int jobID, string cmd_line, int processID, time_t begin_time);
    bool operator<(JobEntry const& je) const;
-      bool operator==(JobEntry const& je) const;
+   bool operator==(JobEntry const& je) const;
    int getJobID(){return jobID;};
    string getCMDLine(){return cmd_line;};
    int getProcessID(){return processID;};
    time_t getBeginTime(){return begin_time;};
    bool isStopped(){return stopped;};
+   void resume(){this -> stopped = false;};
+      void stop(){this -> stopped = true;};
   };
 private:
     list<JobEntry> jobs;
@@ -172,7 +174,8 @@ class ForegroundCommand : public BuiltInCommand {
 };
 
 class BackgroundCommand : public BuiltInCommand {
- // TODO: Add your data members
+private:
+    JobsList* jobs;
  public:
   BackgroundCommand(const char* cmd_line, JobsList* jobs);
   virtual ~BackgroundCommand() {}
