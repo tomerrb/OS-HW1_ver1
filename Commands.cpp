@@ -120,6 +120,10 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   {
       return new KillCommand(cmd_line, &(this->jobs));
   }
+  else if (firstWord.compare("fg") == 0)
+  {
+      return new ForegroundCommand(cmd_line, &(this->jobs));
+  }
   
   // else if ...
   // .....
@@ -224,6 +228,73 @@ void KillCommand::execute(){
     delete[] cmd_args;
 }
 
+bool isDigits(const char* c_array){
+    string temp_str(c_array);
+    for (char c : temp_str) if (!isdigit(c)) return false;
+    return true;
+}
+
+ForegroundCommand::ForegroundCommand(const char* cmd_line, JobsList* jobs): jobs(jobs){
+    this -> cmd_line = cmd_line;
+}
+
+void ForegroundCommand::execute(){
+    char** cmd_args = new char* [COMMAND_MAX_ARGS];
+    int args_num = _parseCommandLine(this->cmd_line, cmd_args);
+    if (args_num > 2) {
+        delete[] cmd_args;
+        throw std::invalid_argument("smash error: kill: invalid arguments");
+    }
+
+    int job_id_to_fg;
+    JobsList::JobEntry* je_ptr;
+
+    if(args_num == 2){
+
+        if (!(isDigits(cmd_args[1]))){
+            delete[] cmd_args;
+            string err_msg = "smash error: kill: invalid arguments";
+            throw std::invalid_argument(err_msg);
+        }
+
+        job_id_to_fg = atoi(cmd_args[1]);
+
+        je_ptr = this -> jobs -> getJobById(job_id_to_fg);
+
+        if(je_ptr == NULL){
+            delete[] cmd_args;
+            string err_msg = "smash error: fg: job-id " + to_string(job_id_to_fg) + " does not exist";
+            throw std::invalid_argument(err_msg);
+        }
+    } else {
+        if(this -> jobs->isEmpty()){
+            delete[] cmd_args;
+            string err_msg = "smash error: fg: jobs list is empty";
+            throw std::invalid_argument(err_msg);
+        }
+
+        je_ptr = this -> jobs -> getLastJob(&job_id_to_fg);
+
+    }
+
+    pid_t pid_to_fg = je_ptr -> getProcessID();
+    string cmd_line = je_ptr -> getCMDLine();
+
+    this -> jobs -> removeJobById(job_id_to_fg);
+
+    int result = kill(pid_to_fg, SIGCONT);
+
+    if(result != 0){
+        delete[] cmd_args;
+        perror("smash error: kill failed");
+    } else{
+        std::cout << cmd_line << " : " << pid_to_fg << endl;
+    }
+    delete[] cmd_args;
+    waitid(P_PID, pid_to_fg, NULL, WCONTINUED);
+
+}
+
 void JobsList::printJobsList() {
     std::list<JobEntry>::iterator it;
     for (it = jobs.begin(); it != jobs.end(); ++it){
@@ -244,6 +315,11 @@ void JobsList::addJob(Command *cmd, bool isStopped) {
     JobEntry je = JobEntry(new_job_id, cmd->getCMDLine(), cmd->getPID(), time(NULL));
     this -> jobs.push_back(je);//.insert(je);
     this -> jobs.sort();
+}
+
+void JobsList::removeJobById(int jobId){
+    JobsList::JobEntry temp(jobId, "temp", 0, time(NULL));
+    this->jobs.remove(temp);
 }
 
 JobsList::JobEntry* JobsList::getLastJob(int* lastJobId){

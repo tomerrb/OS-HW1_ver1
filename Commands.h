@@ -140,6 +140,7 @@ public:
   void removeJobById(int jobId);
   JobEntry * getLastJob(int* lastJobId);
   JobEntry *getLastStoppedJob(int *jobId);
+  bool isEmpty(){return jobs.empty();};
   // TODO: Add extra methods or modify exisitng ones as needed
 };
 
@@ -162,7 +163,8 @@ private:
 };
 
 class ForegroundCommand : public BuiltInCommand {
- // TODO: Add your data members
+ private:
+    JobsList* jobs;
  public:
   ForegroundCommand(const char* cmd_line, JobsList* jobs);
   virtual ~ForegroundCommand() {}
