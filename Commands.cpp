@@ -25,8 +25,6 @@ using namespace std;
 #define WHITESPACE " "
 
 char* prevPwd = nullptr; // new char*[PATH_MAX];
-pid_t fg_pid = 0;
-char* fg_cmd_line = nullptr;
 
 string _ltrim(const std::string& s)
 {
@@ -171,13 +169,8 @@ void SmallShell::executeCommand(const char *cmd_line) {
               cmd -> changePID(pid);
               this -> jobs.addJob(cmd);
           }else{
-              fg_pid = pid;
-              if(fg_cmd_line != nullptr){
-                  delete[] fg_cmd_line;
-              }
-              fg_cmd_line = new char[strlen(cmd_line)];
-              strcpy(fg_cmd_line, cmd_line);
-
+              JobsList::JobEntry je =
+              this->fgJobEntry = JobsList::JobEntry(0, cmd->getCMDLine(), cmd->getPID(), time(NULL));
               wait(NULL);
           }
       }
@@ -324,8 +317,9 @@ void ForegroundCommand::execute(){
 
     }
 
-    pid_t pid_to_fg = je_ptr -> getProcessID();
-    string cmd_line = je_ptr -> getCMDLine();
+    SmallShell& smash = SmallShell::getInstance();
+    smash.updateFGJobEntry(*je_ptr);
+    pid_t pid_to_fg = je_ptr->getProcessID();
 
     this -> jobs -> removeJobById(job_id_to_fg);
 
@@ -338,12 +332,7 @@ void ForegroundCommand::execute(){
         std::cout << cmd_line << " : " << pid_to_fg << endl;
     }
     delete[] cmd_args;
-    fg_pid = pid_to_fg;
-    if(fg_cmd_line != nullptr){
-        delete[] fg_cmd_line;
-    }
-    fg_cmd_line = new char[strlen(cmd_line)];
-    strcpy(fg_cmd_line, cmd_line);
+
     waitid(P_PID, pid_to_fg, NULL, WCONTINUED);
 
 }
@@ -449,6 +438,16 @@ void JobsList::addJob(Command *cmd, bool isStopped) {
     this->getLastJob(&new_job_id);
     new_job_id++;
     JobEntry je = JobEntry(new_job_id, cmd->getCMDLine(), cmd->getPID(), time(NULL));
+    this -> jobs.push_back(je);//.insert(je);
+    this -> jobs.sort();
+}
+
+void JobsList::addJobEntry(JobEntry je, bool isStopped) {
+    if(isStopped){
+        je.stop();
+    }else{
+        je.resume();
+    }
     this -> jobs.push_back(je);//.insert(je);
     this -> jobs.sort();
 }

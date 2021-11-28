@@ -120,6 +120,7 @@ public:
    bool stopped;
   public:
    JobEntry(int jobID, string cmd_line, int processID, time_t begin_time);
+   JobEntry() = default;
    bool operator<(JobEntry const& je) const;
    bool operator==(JobEntry const& je) const;
    int getJobID(){return jobID;};
@@ -128,7 +129,7 @@ public:
    time_t getBeginTime(){return begin_time;};
    bool isStopped(){return stopped;};
    void resume(){this -> stopped = false;};
-      void stop(){this -> stopped = true;};
+   void stop(){this -> stopped = true;};
   };
 private:
     list<JobEntry> jobs;
@@ -137,6 +138,7 @@ public:
   JobsList() = default;
   ~JobsList() = default;
   void addJob(Command* cmd, bool isStopped = false);
+  void addJobEntry(JobEntry je, bool isStopped);
   void printJobsList();
   void killAllJobs();
   void removeFinishedJobs();
@@ -196,6 +198,7 @@ class HeadCommand : public BuiltInCommand {
 class SmallShell {
  private:
   JobsList jobs;
+    JobsList::JobEntry fgJobEntry;
  public:
     SmallShell() = default;
   Command *CreateCommand(const char* cmd_line);
@@ -209,6 +212,15 @@ class SmallShell {
   }
   ~SmallShell() = default;
   void executeCommand(const char* cmd_line);
+  void addJobEntry(JobsList::JobEntry je, bool isStopped){jobs.addJobEntry(je, isStopped);};
+  int getLastJobID(){
+      int new_job_id;
+      jobs.getLastJob(&new_job_id);
+      return new_job_id;
+  }
+  void updateFGJobEntry(JobsList::JobEntry je){fgJobEntry = je;};
+  JobsList::JobEntry getFGJobEntry(){return fgJobEntry;};
+
   // TODO: add extra methods as needed
 };
 
