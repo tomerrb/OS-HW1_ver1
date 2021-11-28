@@ -128,6 +128,10 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   {
       return new BackgroundCommand(cmd_line, &(this->jobs));
   }
+  else if (firstWord.compare("quit") == 0)
+  {
+      return new QuitCommand(cmd_line, &(this->jobs));
+  }
   
   // else if ...
   // .....
@@ -177,6 +181,36 @@ void SmallShell::executeCommand(const char *cmd_line) {
       }
   }
   // Please note that you must fork smash process for some commands (e.g., external commands....)
+}
+
+QuitCommand::QuitCommand(const char* cmd_line, JobsList* jobs): jobs(jobs){
+    this ->cmd_line=cmd_line;
+}
+
+void QuitCommand::execute(){
+    char** cmd_args = new char* [COMMAND_MAX_ARGS];
+    int args_num = _parseCommandLine(this->cmd_line, cmd_args);
+    if (args_num > 1) {
+        if(strcmp(cmd_args[1],"kill") == 0){
+            std::cout<< "smash: sending SIGKILL to " << jobs -> getNumOfJobs()<< " jobs:" << endl;
+            jobs -> killAllJobs();
+        }
+    }
+
+    delete[] cmd_args;
+
+    exit(0);
+}
+
+void JobsList::killAllJobs(){
+    std::list<JobEntry>::iterator it;
+    for (it = jobs.begin(); it != jobs.end(); ){
+        JobEntry temp = *it;
+        std::cout  << temp.getProcessID() << ": " << temp.getCMDLine() << endl;
+        kill(temp.getProcessID(), SIGKILL);
+        ++it;
+        this->jobs.remove(temp);
+    }
 }
 
 JobsCommand::JobsCommand(const char* cmd_line, JobsList* jobs): jobs(jobs){}
@@ -557,7 +591,7 @@ void JobsList::removeFinishedJobs(){
     for (it = jobs.begin(); it != jobs.end(); ++it){
         if (waitpid(it->getProcessID(), &status, WNOHANG) > 0){
             JobEntry temp = *it;
-            ++it;
+//            ++it;
             this->jobs.remove(temp);
         }
     }

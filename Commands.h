@@ -101,7 +101,9 @@ public:
 
 class JobsList;
 class QuitCommand : public BuiltInCommand {
-// TODO: Add your data members public:
+private:
+    JobsList* jobs;
+public:
   QuitCommand(const char* cmd_line, JobsList* jobs);
   virtual ~QuitCommand() {}
   void execute() override;
@@ -143,6 +145,7 @@ public:
   JobEntry * getLastJob(int* lastJobId);
   JobEntry *getLastStoppedJob(int *jobId);
   bool isEmpty(){return jobs.empty();};
+  int getNumOfJobs(){return jobs.size();};
   // TODO: Add extra methods or modify exisitng ones as needed
 };
 

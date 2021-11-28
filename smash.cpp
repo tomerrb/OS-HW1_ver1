@@ -2,11 +2,18 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <csignal>
 #include "Commands.h"
 #include "signals.h"
 #include "string.h"
+#include <stdlib.h>
+#include "stdio.h"
 
 std::string small_shell_name = INIT_SMALL_SHELL_NAME;
+
+void my_handler(sig_atomic_t s){
+    printf("Caught signal %d\n",s);
+}
 
 int main(int argc, char* argv[]) {
 //    if(signal(SIGTSTP , ctrlZHandler)==SIG_ERR) {
@@ -15,9 +22,7 @@ int main(int argc, char* argv[]) {
 //    if(signal(SIGINT , ctrlCHandler)==SIG_ERR) {
 //        perror("smash error: failed to set ctrl-C handler");
 //    }
-
-    //TODO: setup sig alarm handler
-
+    std::signal(SIGINT,ctrlCHandler);
     SmallShell& smash = SmallShell::getInstance();
     while(true) {
         std::cout << small_shell_name << "> ";

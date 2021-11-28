@@ -6,11 +6,11 @@
 using namespace std;
 
 void ctrlZHandler(int sig_num) {
-	// TODO: Add your implementation
+	std::cout << "got to ctrl z" << endl;
 }
 
 void ctrlCHandler(int sig_num) {
-  // TODO: Add your implementation
+    printf("Caught signal %d\n",sig_num);
 }
 
 void alarmHandler(int sig_num) {
