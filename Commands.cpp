@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <string.h>
+#include "string.h"
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -154,7 +155,7 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   else {
       char* temp = new char[strlen(cmd_to_execute_s.c_str())];
       strcpy(temp, cmd_to_execute_s.c_str());
-    return new ExternalCommand(file_int, temp); //cmd_to_execute_s.c_str());
+      return new ExternalCommand(file_int, temp); //cmd_to_execute_s.c_str());
   }
   return nullptr;
 }
@@ -205,12 +206,13 @@ void SmallShell::executeCommand(const char *cmd_line) {
       close(cmd->getFileInt());
   }
 
+  delete cmd;
 
   // Please note that you must fork smash process for some commands (e.g., external commands....)
 }
 
 QuitCommand::QuitCommand(int file_int, const char* cmd_line, JobsList* jobs): jobs(jobs){
-    this ->cmd_line=cmd_line;
+    this -> cmd_line = cmd_line;
     this -> file_int = file_int;
 }
 
@@ -530,7 +532,8 @@ BuiltInCommand::BuiltInCommand(int file_int, const char* cmd_line){
 }
 
 ExternalCommand::ExternalCommand(int file_int, const char* cmd_line){
-    this -> cmd_line = cmd_line;
+    this ->cmd_line = cmd_line;
+   // delete[] cmd_line;
     this -> is_external = true;
     this -> file_int = file_int;
 }
