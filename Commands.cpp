@@ -28,6 +28,7 @@ using namespace std;
 char* prevPwd = nullptr; // new char*[PATH_MAX];
 std::streambuf *og_cout_buf = nullptr;
 std::ofstream* out_file_ptr;
+std::ostream* outStream = nullptr;
 
 string _ltrim(const std::string& s)
 {
@@ -111,7 +112,7 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
       first_cmd_s = _trim(cmd_s.substr(0, found));
       string open_file = _trim(cmd_s.substr(found+2));
       std::ofstream out(open_file.c_str(), ios::app);
-      out_file_ptr = &out;
+      outStream = &out;
       og_cout_buf = std::cout.rdbuf();
       std::cout.rdbuf(out.rdbuf());
   }else {
@@ -123,13 +124,17 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
           string open_file = _trim(cmd_s.substr(found+2));
           std::ofstream out(open_file, ios::out);
           std::cout << "file is open " << out.is_open() << endl;
-          out_file_ptr = &out;
+          outStream = &out;
           std::cout.rdbuf(out.rdbuf());
+      }else{
+          outStream = &(std::cout);
       }
   }
 
   char* first_cmd_line = new char[strlen(first_cmd_s.c_str())];
   strcpy(first_cmd_line, first_cmd_s.c_str());
+
+
 
 
   if (firstWord.compare("pwd") == 0) {
@@ -218,8 +223,8 @@ void SmallShell::executeCommand(const char *cmd_line) {
       }
   }
 
-  if(og_cout_buf != nullptr){
-      (*out_file_ptr).close();
+  if(outStream != &(std::cout)){
+      fclose(*outStream);
       std::cout.rdbuf(og_cout_buf);
       og_cout_buf = nullptr;
   }
@@ -546,7 +551,7 @@ GetCurrDirCommand::GetCurrDirCommand(const char* cmd_line)
 void GetCurrDirCommand::execute()
 {
   char* buf = new char [PATH_MAX] ; 
-  std::cout << getcwd(buf, PATH_MAX) << endl;
+  *outStream << getcwd(buf, PATH_MAX) << endl;
   delete[] buf;
 }
 
