@@ -243,7 +243,7 @@ JobsCommand::JobsCommand(int file_int, const char* cmd_line, JobsList* jobs): jo
 }
 
 void JobsCommand::execute(){
-    jobs->printJobsList();
+    jobs->printJobsList(this -> getFileInt());
 }
 
 JobsList::JobEntry* JobsList::getJobById(int jobId){
@@ -450,17 +450,23 @@ JobsList::JobEntry* JobsList::getLastStoppedJob(int *jobId){
     return NULL;
 }
 
-void JobsList::printJobsList() {
+void JobsList::printJobsList(int file_int) {
+
+    string temp = "";
+
     std::list<JobEntry>::iterator it;
     for (it = jobs.begin(); it != jobs.end(); ++it){
-        std::cout << "[" << it-> getJobID() << "] " << it -> getCMDLine() << " : "
-        << it -> getProcessID() << " " << difftime(time(NULL), it -> getBeginTime())
-        << " secs";
+        temp = temp + "[" + to_string(it-> getJobID()) + "] " + it -> getCMDLine() + " : "
+        +  to_string(it -> getProcessID()) + " " + to_string(int(difftime(time(NULL), it -> getBeginTime())))
+        + " secs";
         if(it->isStopped()) {
-            std::cout << " (stopped)";
+            temp = temp + " (stopped)";
         }
-        std::cout << endl;
+        temp = temp + "\n";
     }
+
+    write(file_int, temp.c_str(), strlen(temp.c_str()));
+
 }
 
 void JobsList::addJob(Command *cmd, bool isStopped) {
