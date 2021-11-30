@@ -626,6 +626,9 @@ void ExternalCommand::execute()
     if (_isBackgroundComamnd(temp)) {
         _removeBackgroundSign(temp);
     }
+
+    dup2(this -> file_int, 1);
+
     char* args[]= {"bash", "-c", temp, NULL};
     execv("/bin/bash", args);
     exit(0);
