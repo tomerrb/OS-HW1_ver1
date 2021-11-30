@@ -111,7 +111,7 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
       if(found != string::npos){
           cmd_to_execute_s = _trim(cmd_s.substr(0, found));
           string file_name = _trim(cmd_s.substr(found+1));
-          file_int = open(file_name.c_str(), O_WRONLY|O_CREAT, 0666);
+          file_int = open(file_name.c_str(), O_WRONLY|O_TRUNC|O_CREAT, 0666);
         }
   }
 
@@ -435,7 +435,7 @@ void BackgroundCommand::execute(){
     je_ptr -> resume();
 
     delete[] cmd_args;
-    waitid(P_PID, pid_to_bg, NULL, WCONTINUED);
+    waitid(P_PID, pid_to_bg, nullptr, WCONTINUED);
 
 }
 
@@ -546,7 +546,8 @@ ShowPidCommand::ShowPidCommand(int file_int, const char* cmd_line){
     this -> file_int = file_int;
 }
 void ShowPidCommand::execute(){
-    std::cout << "smash pid is " << getpid() << endl;
+    string temp =  "smash pid is " + to_string(getpid()) + "\n";
+    write(this -> file_int, temp.c_str(), strlen(temp.c_str()));
 }
 
 extern std::string small_shell_name;
