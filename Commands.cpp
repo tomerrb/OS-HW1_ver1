@@ -116,43 +116,45 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   }
 
    if (firstWord.compare("pwd") == 0) {
-      return new GetCurrDirCommand(file_int, cmd_line);
+      return new GetCurrDirCommand(file_int, cmd_to_execute_s.c_str());
    }
    else if (firstWord.compare("showpid") == 0) {
-     return new ShowPidCommand(file_int, cmd_line);
+     return new ShowPidCommand(file_int, cmd_to_execute_s.c_str());
    }
   else if (firstWord.compare("chprompt") == 0){
-  return new ChangePromptCommand(file_int, cmd_line);
+  return new ChangePromptCommand(file_int, cmd_to_execute_s.c_str());
   }
   else if (firstWord.compare("cd") == 0)
   {
-    return new ChangeDirCommand(file_int, cmd_line, nullptr);
+    return new ChangeDirCommand(file_int, cmd_to_execute_s.c_str(), nullptr);
   }
   else if (firstWord.compare("jobs") == 0)
   {
-      return new JobsCommand(file_int, cmd_line, &(this->jobs));
+      return new JobsCommand(file_int, cmd_to_execute_s.c_str(), &(this->jobs));
   }
   else if (firstWord.compare("kill") == 0)
   {
-      return new KillCommand(file_int, cmd_line, &(this->jobs));
+      return new KillCommand(file_int, cmd_to_execute_s.c_str(), &(this->jobs));
   }
   else if (firstWord.compare("fg") == 0)
   {
-      return new ForegroundCommand(file_int, cmd_line, &(this->jobs));
+      return new ForegroundCommand(file_int, cmd_to_execute_s.c_str(), &(this->jobs));
   }
   else if (firstWord.compare("bg") == 0)
   {
-      return new BackgroundCommand(file_int, cmd_line, &(this->jobs));
+      return new BackgroundCommand(file_int, cmd_to_execute_s.c_str(), &(this->jobs));
   }
   else if (firstWord.compare("quit") == 0)
   {
-      return new QuitCommand(file_int, cmd_line, &(this->jobs));
+      return new QuitCommand(file_int, cmd_to_execute_s.c_str(), &(this->jobs));
   }
 
   // else if ...
   // .....
   else {
-    return new ExternalCommand(file_int, cmd_line);
+      char* temp = new char[strlen(cmd_to_execute_s.c_str())];
+      strcpy(temp, cmd_to_execute_s.c_str());
+    return new ExternalCommand(file_int, temp); //cmd_to_execute_s.c_str());
   }
   return nullptr;
 }
@@ -288,7 +290,8 @@ void KillCommand::execute(){
         delete[] cmd_args;
         perror("smash error: kill failed");
     } else{
-       std::cout << "signal number " << signum << " was sent to pid " << pid_to_kill << endl;
+        string temp = "signal number " + to_string(signum) + " was sent to pid " + to_string(pid_to_kill) + "\n";
+        write(this -> getFileInt(), temp.c_str(), strlen(temp.c_str()));
     }
 
     delete[] cmd_args;
