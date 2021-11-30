@@ -6,6 +6,7 @@
 #include <time.h>
 using std::string;
 using std::list;
+#include <iostream>
 
 #define COMMAND_ARGS_MAX_LENGTH (200)
 #define COMMAND_MAX_ARGS (20)

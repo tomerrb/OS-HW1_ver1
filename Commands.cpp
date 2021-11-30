@@ -8,6 +8,7 @@
 #include "Commands.h"
 #include <limits.h>
 #include <algorithm>
+#include <fstream>
 
 
 using namespace std;
@@ -25,6 +26,8 @@ using namespace std;
 #define WHITESPACE " "
 
 char* prevPwd = nullptr; // new char*[PATH_MAX];
+std::streambuf *og_cout_buf = nullptr;
+std::ofstream* out_file_ptr;
 
 string _ltrim(const std::string& s)
 {
@@ -98,46 +101,78 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
 
   string cmd_s = _trim(string(cmd_line));
   string firstWord = cmd_s.substr(0, cmd_s.find_first_of(" \n"));
+  enum special_t {NOT_EXIST, OVERRIDE, APPEND, PIPE, PIPE_ERR};
+  special_t cmd_special_type = NOT_EXIST;
+  string first_cmd_s = cmd_s;
+  string second_cmd_s;
+    std::size_t  found = cmd_s.find(">>");
+  if(found != string::npos){
+      cmd_special_type = APPEND;
+      first_cmd_s = _trim(cmd_s.substr(0, found));
+      string open_file = _trim(cmd_s.substr(found+2));
+      std::ofstream out(open_file.c_str(), ios::app);
+      out_file_ptr = &out;
+      og_cout_buf = std::cout.rdbuf();
+      std::cout.rdbuf(out.rdbuf());
+  }else {
+      found = cmd_s.find(">");
+      if (found != string::npos) {
+          cmd_special_type = OVERRIDE;
+          first_cmd_s = _trim(cmd_s.substr(0, found));
+          og_cout_buf = std::cout.rdbuf();
+          string open_file = _trim(cmd_s.substr(found+2));
+          std::ofstream out(open_file, ios::out);
+          std::cout << "file is open " << out.is_open() << endl;
+          out_file_ptr = &out;
+          std::cout.rdbuf(out.rdbuf());
+      }
+  }
+
+  char* first_cmd_line = new char[strlen(first_cmd_s.c_str())];
+  strcpy(first_cmd_line, first_cmd_s.c_str());
+
 
   if (firstWord.compare("pwd") == 0) {
-    return new GetCurrDirCommand(cmd_line);
+    return new GetCurrDirCommand(first_cmd_line);
   }
    else if (firstWord.compare("showpid") == 0) {
-     return new ShowPidCommand(cmd_line);
+     return new ShowPidCommand(first_cmd_line);
    }
   else if (firstWord.compare("chprompt") == 0){
-  return new ChangePromptCommand(cmd_line);
+  return new ChangePromptCommand(first_cmd_line);
   }
   else if (firstWord.compare("cd") == 0)
   {
-    return new ChangeDirCommand(cmd_line, nullptr);
+    return new ChangeDirCommand(first_cmd_line, nullptr);
   }
   else if (firstWord.compare("jobs") == 0)
   {
-      return new JobsCommand(cmd_line, &(this->jobs));
+      return new JobsCommand(first_cmd_line, &(this->jobs));
   }
   else if (firstWord.compare("kill") == 0)
   {
-      return new KillCommand(cmd_line, &(this->jobs));
+      return new KillCommand(first_cmd_line, &(this->jobs));
   }
   else if (firstWord.compare("fg") == 0)
   {
-      return new ForegroundCommand(cmd_line, &(this->jobs));
+      return new ForegroundCommand(first_cmd_line, &(this->jobs));
   }
   else if (firstWord.compare("bg") == 0)
   {
-      return new BackgroundCommand(cmd_line, &(this->jobs));
+      return new BackgroundCommand(first_cmd_line, &(this->jobs));
   }
   else if (firstWord.compare("quit") == 0)
   {
-      return new QuitCommand(cmd_line, &(this->jobs));
+      return new QuitCommand(first_cmd_line, &(this->jobs));
   }
   
   // else if ...
   // .....
   else {
-    return new ExternalCommand(cmd_line);
+    return new ExternalCommand(first_cmd_line);
   }
+
+   delete[] first_cmd_line;
   
   return nullptr;
 }
@@ -182,6 +217,14 @@ void SmallShell::executeCommand(const char *cmd_line) {
           std::cout << e.what() << '\n';
       }
   }
+
+  if(og_cout_buf != nullptr){
+      (*out_file_ptr).close();
+      std::cout.rdbuf(og_cout_buf);
+      og_cout_buf = nullptr;
+  }
+
+
   // Please note that you must fork smash process for some commands (e.g., external commands....)
 }
 
