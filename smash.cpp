@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
         std::cout << small_shell_name << "> ";
         std::string cmd_line;
         std::getline(std::cin, cmd_line);
-        smash.executeCommand(cmd_line.c_str());
+        smash.executeCommand(cmd_line);
     }
     return 0;
 }
