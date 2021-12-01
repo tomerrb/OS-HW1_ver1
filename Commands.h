@@ -118,7 +118,7 @@ public:
   private:
    int jobID;
    string cmd_line;
-   int processID;
+   pid_t processID;
    time_t begin_time;
    bool stopped;
   public:
@@ -136,7 +136,7 @@ public:
   };
 private:
     list<JobEntry> jobs;
-    int nextJobID;
+//    int nextJobID;
 public:
   JobsList() = default;
   ~JobsList() = default;

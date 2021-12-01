@@ -58,22 +58,23 @@ bool _isBackgroundComamnd(string cmd_line) {
   return cmd_line[cmd_line.find_last_not_of(WHITESPACE)] == '&';
 }
 
-void _removeBackgroundSign(string cmd_line) {
+string _removeBackgroundSign(string cmd_line) {
 
   // find last character other than spaces
   unsigned int idx = cmd_line.find_last_not_of(WHITESPACE);
   // if all characters are spaces then return
   if (idx == string::npos) {
-    return;
+    return cmd_line;
   }
   // if the command line does not end with & then return
   if (cmd_line[idx] != '&') {
-    return;
+    return cmd_line;
   }
   // replace the & (background sign) with space and then remove all tailing spaces.
-  cmd_line[idx] = ' ';
+  string result = cmd_line.substr(0, idx);
+  return result;
   // truncate the command line string up to the last non-space character
-  cmd_line[cmd_line.find_last_not_of(WHITESPACE, idx) + 1] = 0;
+//  cmd_line[cmd_line.find_last_not_of(WHITESPACE, idx) + 1] = 0;
 }
 
 // TODO: Add your implementation for classes in Commands.h 
@@ -152,6 +153,10 @@ Command * SmallShell::CreateCommand(string cmd_line) {
 }
 
 void SmallShell::executeCommand(string cmd_line) {
+
+//    std::cout << "cmd_line before" << cmd_line << endl;
+//    _removeBackgroundSign(cmd_line);
+//    std::cout << "cmd_line after" << cmd_line << endl;
 
   this->jobs.removeFinishedJobs();
   Command* cmd = CreateCommand(cmd_line);
@@ -597,8 +602,8 @@ void ExternalCommand::execute()
 {
     string temp = this -> cmd_line;
     // This is the child process.
-    if (_isBackgroundComamnd(temp)) {
-        _removeBackgroundSign(temp);
+    if (_isBackgroundComamnd(this -> cmd_line)) {
+        temp = _removeBackgroundSign(this -> cmd_line);
     }
 
     dup2(this -> file_int, 1);
@@ -626,7 +631,8 @@ void JobsList::removeFinishedJobs(){
     int status;
     std::list<JobEntry>::iterator it;
     for (it = jobs.begin(); it != jobs.end(); ){
-        if (waitpid(it->getProcessID(), &status, WNOHANG) > 0){
+        int result = waitpid(it->getProcessID(), &status, WNOHANG);
+        if (result > 0){
             JobEntry temp = *it;
             ++it;
             this->jobs.remove(temp);
