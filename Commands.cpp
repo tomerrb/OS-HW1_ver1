@@ -509,7 +509,6 @@ BuiltInCommand::BuiltInCommand(int file_int, string cmd_line){
 
 ExternalCommand::ExternalCommand(int file_int, string cmd_line){
     this ->cmd_line = cmd_line;
-   // delete[] cmd_line;
     this -> is_external = true;
     this -> file_int = file_int;
 }
