@@ -112,6 +112,20 @@ Command * SmallShell::CreateCommand(string cmd_line) {
         }
   }
 
+    found = cmd_s.find("|&");
+    if(found != string::npos){
+        cmd_to_execute_s = _trim(cmd_s.substr(0, found));
+        string file_name = _trim(cmd_s.substr(found+2));
+        file_int = open(file_name.c_str(), O_WRONLY|O_APPEND|O_CREAT, 0666);
+    }else{
+        found = cmd_s.find("|");
+        if(found != string::npos){
+            return new PipeCommand(1, cmd_to_execute_s,
+                                   cmd_to_execute_s.substr(0, found),
+                                   cmd_to_execute_s.substr(found+1));
+        }
+    }
+
    if (firstWord == "pwd") {
       return new GetCurrDirCommand(file_int, cmd_to_execute_s);
    }
@@ -158,6 +172,42 @@ Command * SmallShell::CreateCommand(string cmd_line) {
   return nullptr;
 }
 
+PipeCommand::PipeCommand(int file_int, string cmd_line, string cmd_line_1, string cmd_line_2){
+    this -> file_int = file_int;
+    this -> cmd_line = cmd_line;
+    this -> cmd_line_1 = cmd_line_1;
+    this -> cmd_line_2 = cmd_line_2;
+}
+
+void PipeCommand::execute(){
+
+    SmallShell& smash = SmallShell::getInstance();
+    int fd[2];
+    pipe(fd);
+    if(fork() == 0){
+        setpgrp();
+        // Son
+        close(fd[0]);
+//        Command* cmd1 = smash.CreateCommand(this -> cmd_line_1);
+//        cmd1 -> changeFileInt(fd[1]);
+//        cmd1 -> execute();
+////        close(fd[1]);
+//        exit(0);
+        dup2(fd[1], 1);
+        smash.executeCommand(this -> cmd_line_1);
+        exit(0);
+
+    }else{
+        close(fd[1]);
+        //Father
+//        Command* cmd2 = smash.CreateCommand(this -> cmd_line_2);
+        dup2(fd[0], 0);
+//        cmd2 -> execute();
+        smash.executeCommand(this -> cmd_line_2);
+//        close(fd[0]);
+    }
+}
+
 void SmallShell::executeCommand(string cmd_line) {
 
 //    std::cout << "cmd_line before" << cmd_line << endl;
@@ -177,6 +227,9 @@ void SmallShell::executeCommand(string cmd_line) {
           catch(const std::exception& e) {
               std::cout << e.what() << '\n';
           }
+
+          exit(0);
+
       }
       else
       {
@@ -618,6 +671,7 @@ void ExternalCommand::execute()
     char* args[]= {"bash", "-c", temp_str, NULL};
     execv("/bin/bash", args);
     delete[] temp_str;
+
     exit(0);
 }
 

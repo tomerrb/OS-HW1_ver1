@@ -28,6 +28,7 @@ protected:
   pid_t getPID(){return pid;};
   string getCMDLine(){return cmd_line;};
   int getFileInt(){return file_int;};
+  void changeFileInt(int new_file_int){ this -> file_int = new_file_int;}
   //virtual void prepare();
   //virtual void cleanup();
   // TODO: Add your extra methods if needed
@@ -51,9 +52,11 @@ class ExternalCommand : public Command {
 };
 
 class PipeCommand : public Command {
-  // TODO: Add your data members
+private:
+  string cmd_line_1;
+  string cmd_line_2;
  public:
-  PipeCommand(int file_int, string cmd_line);
+  PipeCommand(int file_int, string cmd_line, string cmd_line_1, string cmd_line_2);
   virtual ~PipeCommand() {}
   void execute() override;
 };
