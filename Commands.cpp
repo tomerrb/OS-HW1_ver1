@@ -201,9 +201,11 @@ void PipeCommand::execute(){
         close(fd[1]);
         //Father
 //        Command* cmd2 = smash.CreateCommand(this -> cmd_line_2);
+        int old_fd = dup(0);
         dup2(fd[0], 0);
 //        cmd2 -> execute();
         smash.executeCommand(this -> cmd_line_2);
+        dup2(old_fd, 0);
 //        close(fd[0]);
     }
 }
