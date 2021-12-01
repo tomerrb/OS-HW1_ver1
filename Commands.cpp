@@ -675,9 +675,11 @@ void HeadCommand::execute()
         string temp = cmd_args[1];
         if (temp.size() < 2 && temp[0] == '-')
         {
-            rowsNum = 0;
+            return;
+        }else{
+            rowsNum = stoi(temp.substr(1));
         }
-        rowsNum = stoi(temp.substr(1));
+
     }
     int open_res = open(file_to_read_s.c_str(), O_RDONLY);
     if (open_res == -1)
