@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <stdio.h>
 #include <fcntl.h>
+#include <string>
+
 
 using namespace std;
 
@@ -148,6 +150,10 @@ Command * SmallShell::CreateCommand(const char* cmd_line) {
   else if (firstWord.compare("quit") == 0)
   {
       return new QuitCommand(file_int, cmd_to_execute_s.c_str(), &(this->jobs));
+  }
+  else if (firstWord.compare("head") == 0)
+  {
+      return new HeadCommand(file_int, cmd_to_execute_s.c_str());
   }
 
   // else if ...
@@ -670,4 +676,74 @@ void JobsList::removeFinishedJobs(){
             ++it;
         }
     }
+}
+
+HeadCommand::HeadCommand(int file_int, const char* cmd_line)
+{
+    this->file_int = file_int;
+    this->cmd_line = cmd_line;
+}
+
+void HeadCommand::execute()
+{
+    char** cmd_args = new char* [COMMAND_MAX_ARGS];
+    int args_num = _parseCommandLine(this->cmd_line, cmd_args);
+    if ((args_num < 2) || (cmd_args[1][0] == '-' && args_num == 2)) {
+        delete[] cmd_args;
+        throw std::invalid_argument("smash error: head: not enough arguments\n");
+    }
+    string file_to_read_s;
+    if (args_num == 3)
+    {
+        file_to_read_s = cmd_args[2];
+    }
+    else
+    {
+        file_to_read_s = cmd_args[1];
+    }
+    int rowsNum = 10;
+    if (args_num == 3)
+    {
+        string temp = cmd_args[1];
+        if (temp.size() < 2 && temp[0] == '-')
+        {
+            rowsNum = 0;
+        }
+        rowsNum = atoi((temp.substr(1)).c_str());
+    }
+    int open_res = open(file_to_read_s.c_str(), O_RDONLY);
+    if (open_res == -1)
+    {
+        delete[] cmd_args;
+        perror("smash error: open failed");
+    }
+    char* character = new char [1];
+    int read_res = read(open_res,character, 1);
+    int write_res = 0;
+    int rows_count = 0;
+    while (read_res != 0)
+    {
+        if (read_res == -1)
+        {
+            delete[] cmd_args;
+            delete[] character;
+            close(open_res);
+            perror("smash error: read failed");
+        }
+        write_res = write (this->getFileInt(), character, 1);
+        if  (write_res == -1)
+        {
+            delete[] cmd_args;
+            delete[] character;
+            close(open_res);
+            perror("smash error: write failed");  
+        }
+        if (character == "\n") rows_count++;
+        if (rows_count == rowsNum) break;
+        read_res = read(open_res,character, 1);
+    }
+    delete[] cmd_args;
+    delete[] character;
+    close(open_res);
+    
 }
