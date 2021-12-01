@@ -114,15 +114,15 @@ Command * SmallShell::CreateCommand(string cmd_line) {
 
     found = cmd_s.find("|&");
     if(found != string::npos){
-        cmd_to_execute_s = _trim(cmd_s.substr(0, found));
-        string file_name = _trim(cmd_s.substr(found+2));
-        file_int = open(file_name.c_str(), O_WRONLY|O_APPEND|O_CREAT, 0666);
+        return new PipeCommand(1, cmd_to_execute_s,
+                               cmd_to_execute_s.substr(0, found),
+                               cmd_to_execute_s.substr(found+2), 2); // 2 std err
     }else{
         found = cmd_s.find("|");
         if(found != string::npos){
             return new PipeCommand(1, cmd_to_execute_s,
                                    cmd_to_execute_s.substr(0, found),
-                                   cmd_to_execute_s.substr(found+1));
+                                   cmd_to_execute_s.substr(found+1), 1); // 1 std out
         }
     }
 
@@ -172,11 +172,12 @@ Command * SmallShell::CreateCommand(string cmd_line) {
   return nullptr;
 }
 
-PipeCommand::PipeCommand(int file_int, string cmd_line, string cmd_line_1, string cmd_line_2){
+PipeCommand::PipeCommand(int file_int, string cmd_line, string cmd_line_1, string cmd_line_2, int fd_redirect){
     this -> file_int = file_int;
     this -> cmd_line = cmd_line;
     this -> cmd_line_1 = cmd_line_1;
     this -> cmd_line_2 = cmd_line_2;
+    this -> fd_redirect = fd_redirect;
 }
 
 void PipeCommand::execute(){
@@ -193,7 +194,7 @@ void PipeCommand::execute(){
 //        cmd1 -> execute();
 ////        close(fd[1]);
 //        exit(0);
-        dup2(fd[1], 1);
+        dup2(fd[1], this -> fd_redirect);
         smash.executeCommand(this -> cmd_line_1);
         exit(0);
 

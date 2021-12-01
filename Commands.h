@@ -55,8 +55,9 @@ class PipeCommand : public Command {
 private:
   string cmd_line_1;
   string cmd_line_2;
+  int fd_redirect;
  public:
-  PipeCommand(int file_int, string cmd_line, string cmd_line_1, string cmd_line_2);
+  PipeCommand(int file_int, string cmd_line, string cmd_line_1, string cmd_line_2, int fd_redirect);
   virtual ~PipeCommand() {}
   void execute() override;
 };
