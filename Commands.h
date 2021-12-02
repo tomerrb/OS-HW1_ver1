@@ -116,6 +116,35 @@ public:
   void execute() override;
 };
 
+class TimeOutList {
+public:
+    class TimeOutEntry {
+    private:
+        pid_t processID;
+        time_t timestamp;
+        int duration;
+    public:
+        TimeOutEntry(int processID, time_t timestamp, int duration);
+        TimeOutEntry() = default;
+        bool operator<(TimeOutEntry const& je) const;
+        bool operator==(TimeOutEntry const& je) const;
+        int getProcessID(){return processID;};
+        time_t getTimestamp(){return timestamp;};
+        bool isTimedOut(){return (difftime(time(nullptr), timestamp)) > duration;};
+    };
+private:
+    list<TimeOutEntry> timeoutJobs;
+public:
+    TimeOutList() = default;
+    ~TimeOutList() = default;
+    void addTimeOutProcess(int processID, time_t timestamp, int duration);
+    void addTimeOutEntry(TimeOutEntry toe);
+//    void removeFinishedJobs();
+//    bool isEmpty(){return jobs.empty();};
+//    int getNumOfJobs(){return jobs.size();};
+    // TODO: Add extra methods or modify exisitng ones as needed
+};
+
 class JobsList {
 public:
   class JobEntry {
@@ -201,11 +230,23 @@ class HeadCommand : public BuiltInCommand {
   void execute() override;
 };
 
+class TimeOutCommand : public BuiltInCommand {
+private:
+    int duration;
+    string cmd_to_execute;
+public:
+    TimeOutCommand(int duration, string cmd_line, string cmd_to_execute);
+    virtual ~TimeOutCommand() {}
+    void execute() override;
+};
+
 
 class SmallShell {
  private:
   JobsList jobs;
-    JobsList::JobEntry fgJobEntry;
+  JobsList::JobEntry fgJobEntry;
+  TimeOutList timeouts;
+
  public:
     SmallShell() = default;
   Command *CreateCommand(string cmd_line);
@@ -218,7 +259,7 @@ class SmallShell {
     return instance;
   }
   ~SmallShell() = default;
-  void executeCommand(string cmd_line);
+  pid_t executeCommand(string cmd_line);
   void addJobEntry(JobsList::JobEntry je, bool isStopped){jobs.addJobEntry(je, isStopped);};
   int getLastJobID(){
       int new_job_id;
@@ -227,6 +268,9 @@ class SmallShell {
   }
   void updateFGJobEntry(JobsList::JobEntry je){fgJobEntry = je;};
   JobsList::JobEntry getFGJobEntry(){return fgJobEntry;};
+  void addTimeOut(pid_t processID, time_t timestamp, int duration){
+      this->timeouts.addTimeOutProcess(processID, timestamp, duration);
+  };
 
   // TODO: add extra methods as needed
 };

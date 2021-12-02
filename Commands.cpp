@@ -211,16 +211,19 @@ void PipeCommand::execute(){
     }
 }
 
-void SmallShell::executeCommand(string cmd_line) {
+pid_t SmallShell::executeCommand(string cmd_line) {
 
 //    std::cout << "cmd_line before" << cmd_line << endl;
 //    _removeBackgroundSign(cmd_line);
 //    std::cout << "cmd_line after" << cmd_line << endl;
 
   this->jobs.removeFinishedJobs();
+
+    pid_t pid = 0;
+
   Command* cmd = CreateCommand(cmd_line);
   if(cmd->isExternal()){
-      pid_t pid = fork();
+      pid = fork();
       if (pid == 0) {
           // This is the child.
           setpgrp();
@@ -246,6 +249,7 @@ void SmallShell::executeCommand(string cmd_line) {
               int status;
               waitpid(pid, &status, WUNTRACED);
           }
+
       }
   }else{
       try {
@@ -261,6 +265,8 @@ void SmallShell::executeCommand(string cmd_line) {
   }
 
   delete cmd;
+
+  return pid;
 
   // Please note that you must fork smash process for some commands (e.g., external commands....)
 }
@@ -281,6 +287,30 @@ void QuitCommand::execute(){
     }
 
     exit(0);
+}
+
+TimeOutCommand::TimeOutCommand(int duration, string cmd_line, string cmd_to_execute){
+    this -> duration = duration;
+    this -> cmd_line = cmd_line;
+    this -> cmd_to_execute = cmd_to_execute;
+}
+
+void TimeOutCommand::execute(){
+
+    SmallShell& smash = SmallShell::getInstance();
+
+    if(fork() == 0){
+        setpgrp();
+        // Son
+        sleep(this -> duration);
+        kill(getppid(), SIGALRM);
+
+    }else{
+        //Father
+        pid_t pid = smash.executeCommand(this->cmd_to_execute);
+        smash.addTimeOut(pid, time(nullptr), this -> duration);
+    }
+
 }
 
 void JobsList::killAllJobs(){
