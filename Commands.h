@@ -121,24 +121,29 @@ public:
     class TimeOutEntry {
     private:
         pid_t processID;
+        string cmd_line;
+        pid_t timerProcessID;
         time_t timestamp;
         int duration;
     public:
-        TimeOutEntry(int processID, time_t timestamp, int duration);
+        TimeOutEntry(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID);
         TimeOutEntry() = default;
         bool operator<(TimeOutEntry const& je) const;
         bool operator==(TimeOutEntry const& je) const;
         int getProcessID(){return processID;};
+        int getTimerProcessID(){return timerProcessID;};
         time_t getTimestamp(){return timestamp;};
         bool isTimedOut(){return (difftime(time(nullptr), timestamp)) > duration;};
+        string getCMDLine(){return cmd_line;};
     };
 private:
     list<TimeOutEntry> timeoutJobs;
 public:
     TimeOutList() = default;
     ~TimeOutList() = default;
-    void addTimeOutProcess(int processID, time_t timestamp, int duration);
+    void addTimeOutProcess(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID);
     void addTimeOutEntry(TimeOutEntry toe);
+    friend void alarmHandler(int sig_num);
 //    void removeFinishedJobs();
 //    bool isEmpty(){return jobs.empty();};
 //    int getNumOfJobs(){return jobs.size();};
@@ -268,9 +273,11 @@ class SmallShell {
   }
   void updateFGJobEntry(JobsList::JobEntry je){fgJobEntry = je;};
   JobsList::JobEntry getFGJobEntry(){return fgJobEntry;};
-  void addTimeOut(pid_t processID, time_t timestamp, int duration){
-      this->timeouts.addTimeOutProcess(processID, timestamp, duration);
+  void addTimeOut(pid_t processID, string cmd_line, time_t timestamp, int duration, int timerProcessID){
+      this->timeouts.addTimeOutProcess(processID, cmd_line, timestamp, duration, timerProcessID);
   };
+
+  friend void alarmHandler(int sig_num);
 
   // TODO: add extra methods as needed
 };

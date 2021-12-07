@@ -260,7 +260,7 @@ pid_t SmallShell::executeCommand(string cmd_line) {
       }
   }
 
-  if(cmd->getFileInt() != 1){
+  if(cmd->getFileInt() != 1 && cmd->getFileInt() != 2){
       close(cmd->getFileInt());
   }
 
@@ -289,6 +289,29 @@ void QuitCommand::execute(){
     exit(0);
 }
 
+TimeOutList::TimeOutEntry::TimeOutEntry(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID):
+        processID(processID),cmd_line(cmd_line), timestamp(timestamp), duration(duration), timerProcessID(timerProcessID){}
+
+void TimeOutList::addTimeOutProcess(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID) {
+    TimeOutEntry toe = TimeOutEntry(processID, cmd_line, timestamp, duration, timerProcessID);
+    this -> timeoutJobs.push_back(toe);//.insert(je);
+    this -> timeoutJobs.sort();
+}
+
+bool TimeOutList::TimeOutEntry::operator<(TimeOutEntry const& toe) const{
+    time_t current_time = time(nullptr);
+    int this_time_left = difftime(current_time, timestamp) - duration;
+    int toe_time_left = difftime(current_time, toe.timestamp) - toe.duration;
+    return this_time_left < toe_time_left;
+}
+
+bool TimeOutList::TimeOutEntry::operator==(TimeOutEntry const& toe) const{
+    time_t current_time = time(nullptr);
+    int this_time_left = difftime(current_time, timestamp) - duration;
+    int toe_time_left = difftime(current_time, toe.timestamp) - toe.duration;
+    return this_time_left == toe_time_left;
+}
+
 TimeOutCommand::TimeOutCommand(int duration, string cmd_line, string cmd_to_execute){
     this -> duration = duration;
     this -> cmd_line = cmd_line;
@@ -299,19 +322,24 @@ void TimeOutCommand::execute(){
 
     SmallShell& smash = SmallShell::getInstance();
 
-    if(fork() == 0){
+    pid_t timer_pid = fork();
+
+    if(timer_pid == 0){
         setpgrp();
         // Son
         sleep(this -> duration);
         kill(getppid(), SIGALRM);
+        exit(0);
 
     }else{
         //Father
         pid_t pid = smash.executeCommand(this->cmd_to_execute);
-        smash.addTimeOut(pid, time(nullptr), this -> duration);
+        smash.addTimeOut(pid, this->getCMDLine(), time(nullptr), this -> duration, timer_pid);
     }
 
 }
+
+
 
 void JobsList::killAllJobs(){
     std::list<JobEntry>::iterator it;

@@ -2,6 +2,7 @@
 #include <signal.h>
 #include "signals.h"
 #include "Commands.h"
+#include <sys/wait.h>
 
 using namespace std;
 
@@ -51,6 +52,24 @@ void alarmHandler(int sig_num) {
 
     SmallShell& smash = SmallShell::getInstance();
 
+    // Go to all timeout processes, if anyone has a duration that's too big, kill it.
+    std::list<TimeOutList::TimeOutEntry>::iterator it;
+    for (it = smash.timeouts.timeoutJobs.begin(); it != smash.timeouts.timeoutJobs.end(); ){
+        TimeOutList::TimeOutEntry temp = *it;
+        if(temp.isTimedOut()){
+            std::cout  <<  "smash: " << temp.getCMDLine() << " timed out!" << endl;
+            kill(temp.getProcessID(), SIGKILL);
+            // TODO: if i understand correctly, we do not need to wait here to the process.
+            //  it will eneter zombie and somewhere else we wait for it.
+            kill(temp.getTimerProcessID(), SIGKILL);
+            int status;
+            waitpid(temp.getTimerProcessID(), &status, WUNTRACED);
+        }
+        ++it;
+        if(temp.isTimedOut()) {
+            smash.timeouts.timeoutJobs.remove(temp);
+        }
+    }
 
 }
 
