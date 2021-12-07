@@ -51,11 +51,13 @@ void ctrlCHandler(int sig_num) {
 void alarmHandler(int sig_num) {
 
     SmallShell& smash = SmallShell::getInstance();
+//    std::cout  <<  "got an alarm! size is: " << smash.timeouts.timeoutJobs.size() << endl;
 
     // Go to all timeout processes, if anyone has a duration that's too big, kill it.
     std::list<TimeOutList::TimeOutEntry>::iterator it;
     for (it = smash.timeouts.timeoutJobs.begin(); it != smash.timeouts.timeoutJobs.end(); ){
         TimeOutList::TimeOutEntry temp = *it;
+//        std::cout << "is it timed out: " << temp.isTimedOut() << endl;
         if(temp.isTimedOut()){
             std::cout  <<  "smash: " << temp.getCMDLine() << " timed out!" << endl;
             kill(temp.getProcessID(), SIGKILL);

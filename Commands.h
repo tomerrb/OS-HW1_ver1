@@ -132,9 +132,15 @@ public:
         bool operator==(TimeOutEntry const& je) const;
         int getProcessID(){return processID;};
         int getTimerProcessID(){return timerProcessID;};
+        int getDuration(){return duration;};
         time_t getTimestamp(){return timestamp;};
-        bool isTimedOut(){return (difftime(time(nullptr), timestamp)) > duration;};
+        bool isTimedOut(){
+            time_t elapsed_time = difftime(time(nullptr), timestamp);
+//            std::cout << "elapsed time is: " << elapsed_time << "\n";
+            return elapsed_time >= duration;
+        };
         string getCMDLine(){return cmd_line;};
+        void changeProcessID(pid_t new_pid){this ->processID = new_pid;};
     };
 private:
     list<TimeOutEntry> timeoutJobs;
@@ -240,7 +246,7 @@ private:
     int duration;
     string cmd_to_execute;
 public:
-    TimeOutCommand(int duration, string cmd_line, string cmd_to_execute);
+    TimeOutCommand(int duration, string cmd_line);
     virtual ~TimeOutCommand() {}
     void execute() override;
 };
@@ -264,7 +270,7 @@ class SmallShell {
     return instance;
   }
   ~SmallShell() = default;
-  pid_t executeCommand(string cmd_line);
+  pid_t executeCommand(string cmd_line, bool is_timeout = false, TimeOutList::TimeOutEntry* toe_ptr = nullptr);
   void addJobEntry(JobsList::JobEntry je, bool isStopped){jobs.addJobEntry(je, isStopped);};
   int getLastJobID(){
       int new_job_id;
@@ -273,8 +279,9 @@ class SmallShell {
   }
   void updateFGJobEntry(JobsList::JobEntry je){fgJobEntry = je;};
   JobsList::JobEntry getFGJobEntry(){return fgJobEntry;};
-  void addTimeOut(pid_t processID, string cmd_line, time_t timestamp, int duration, int timerProcessID){
-      this->timeouts.addTimeOutProcess(processID, cmd_line, timestamp, duration, timerProcessID);
+  void addTimeOut(TimeOutList::TimeOutEntry toe){
+      this->timeouts.addTimeOutProcess(toe.getProcessID(), toe.getCMDLine(),
+                                       toe.getTimestamp(), toe.getDuration(), toe.getTimerProcessID());
   };
 
   friend void alarmHandler(int sig_num);

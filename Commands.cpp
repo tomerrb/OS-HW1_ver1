@@ -163,6 +163,10 @@ Command * SmallShell::CreateCommand(string cmd_line) {
   {
       return new HeadCommand(file_int, cmd_to_execute_s);
   }
+  else if (firstWord =="timeout")
+  {
+      return new TimeOutCommand(file_int, cmd_to_execute_s);
+  }
 
   // else if ...
   // .....
@@ -211,7 +215,7 @@ void PipeCommand::execute(){
     }
 }
 
-pid_t SmallShell::executeCommand(string cmd_line) {
+pid_t SmallShell::executeCommand(string cmd_line, bool is_timeout, TimeOutList::TimeOutEntry* toe_ptr) {
 
 //    std::cout << "cmd_line before" << cmd_line << endl;
 //    _removeBackgroundSign(cmd_line);
@@ -240,6 +244,12 @@ pid_t SmallShell::executeCommand(string cmd_line) {
       else
       {
           // This is the parent process.
+          if(is_timeout){
+              toe_ptr -> changeProcessID(pid);
+              this -> addTimeOut(*toe_ptr);
+//              std::cout << "Set the timeout in list" << endl;
+          }
+
           if(_isBackgroundComamnd(cmd_line)){
               // add to job list
               cmd -> changePID(pid);
@@ -312,10 +322,14 @@ bool TimeOutList::TimeOutEntry::operator==(TimeOutEntry const& toe) const{
     return this_time_left == toe_time_left;
 }
 
-TimeOutCommand::TimeOutCommand(int duration, string cmd_line, string cmd_to_execute){
-    this -> duration = duration;
+TimeOutCommand::TimeOutCommand(int file_int, string cmd_line){
+
+    this ->file_int = file_int;
     this -> cmd_line = cmd_line;
-    this -> cmd_to_execute = cmd_to_execute;
+    std::vector<string> cmd_args = _parseCommandLine(this->cmd_line);
+    this -> duration = stoi(cmd_args[1]);
+    std::size_t found = cmd_line.find(cmd_args[1]);
+    this -> cmd_to_execute = cmd_line.substr(found+cmd_args[1].size());
 }
 
 void TimeOutCommand::execute(){
@@ -324,17 +338,27 @@ void TimeOutCommand::execute(){
 
     pid_t timer_pid = fork();
 
+//    sleep(this -> duration);
+
     if(timer_pid == 0){
         setpgrp();
         // Son
+//        usleep((this -> duration)*1000000);
+
+//        clock_t time_end = clock() + (this -> duration);
+//        while(clock() < time_end)
+//        {
+//        }
+
         sleep(this -> duration);
+
         kill(getppid(), SIGALRM);
         exit(0);
 
     }else{
         //Father
-        pid_t pid = smash.executeCommand(this->cmd_to_execute);
-        smash.addTimeOut(pid, this->getCMDLine(), time(nullptr), this -> duration, timer_pid);
+        TimeOutList::TimeOutEntry toe = TimeOutList::TimeOutEntry(0, this->getCMDLine(), time(nullptr), this -> duration, timer_pid);
+        pid_t pid = smash.executeCommand(this->cmd_to_execute, true, &toe);
     }
 
 }
