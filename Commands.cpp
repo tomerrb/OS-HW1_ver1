@@ -247,7 +247,6 @@ pid_t SmallShell::executeCommand(string cmd_line, bool is_timeout, TimeOutList::
           if(is_timeout){
               toe_ptr -> changeProcessID(pid);
               this -> addTimeOut(*toe_ptr);
-//              std::cout << "Set the timeout in list" << endl;
           }
 
           if(_isBackgroundComamnd(cmd_line)){
@@ -258,6 +257,9 @@ pid_t SmallShell::executeCommand(string cmd_line, bool is_timeout, TimeOutList::
               this->fgJobEntry = JobsList::JobEntry(0, cmd->getCMDLine(), pid, time(NULL));
               int status;
               waitpid(pid, &status, WUNTRACED);
+              if(is_timeout){
+                  this -> removeTimeOut(pid);
+              }
           }
 
       }
@@ -306,6 +308,24 @@ void TimeOutList::addTimeOutProcess(int processID, string cmd_line, time_t times
     TimeOutEntry toe = TimeOutEntry(processID, cmd_line, timestamp, duration, timerProcessID);
     this -> timeoutJobs.push_back(toe);//.insert(je);
     this -> timeoutJobs.sort();
+}
+
+void TimeOutList::removeTimeOutEntry(pid_t pid_to_remove){
+    std::list<TimeOutEntry>::iterator it;
+    for (it = timeoutJobs.begin(); it != timeoutJobs.end(); ){
+        TimeOutEntry temp = *it;
+        if(temp.getProcessID() == pid_to_remove){
+            // Kill Timer
+            kill(temp.getTimerProcessID(), SIGKILL);
+            int status;
+            waitpid(temp.getTimerProcessID(), &status, WUNTRACED);
+        }
+        ++it;
+        if(temp.getProcessID() == pid_to_remove){
+            // Remove from list
+            timeoutJobs.remove(temp);
+        }
+    }
 }
 
 bool TimeOutList::TimeOutEntry::operator<(TimeOutEntry const& toe) const{
@@ -489,6 +509,7 @@ void ForegroundCommand::execute(){
 
     int status;
     waitpid(pid_to_fg, &status, WUNTRACED);
+    smash.removeTimeOut(pid_to_fg);
 
 }
 
@@ -772,12 +793,14 @@ JobsList::JobEntry::JobEntry(int jobID, string cmd_line, int processID, time_t b
 jobID(jobID),cmd_line(cmd_line), processID(processID), begin_time(begin_time), stopped(false){}
 
 void JobsList::removeFinishedJobs(){
+    SmallShell& smash = SmallShell::getInstance();
     int status;
     std::list<JobEntry>::iterator it;
     for (it = jobs.begin(); it != jobs.end(); ){
         int result = waitpid(it->getProcessID(), &status, WNOHANG);
         if (result > 0){
             JobEntry temp = *it;
+            smash.removeTimeOut(temp.getProcessID());
             ++it;
             this->jobs.remove(temp);
         }else{

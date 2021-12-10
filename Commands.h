@@ -149,6 +149,7 @@ public:
     ~TimeOutList() = default;
     void addTimeOutProcess(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID);
     void addTimeOutEntry(TimeOutEntry toe);
+    void removeTimeOutEntry(pid_t pid_to_remove);
     friend void alarmHandler(int sig_num);
 //    void removeFinishedJobs();
 //    bool isEmpty(){return jobs.empty();};
@@ -283,6 +284,9 @@ class SmallShell {
       this->timeouts.addTimeOutProcess(toe.getProcessID(), toe.getCMDLine(),
                                        toe.getTimestamp(), toe.getDuration(), toe.getTimerProcessID());
   };
+  void removeTimeOut(pid_t pid_to_remove){
+      timeouts.removeTimeOutEntry(pid_to_remove);
+  }
 
   friend void alarmHandler(int sig_num);
 
