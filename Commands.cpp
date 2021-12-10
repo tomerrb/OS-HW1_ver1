@@ -293,7 +293,7 @@ void QuitCommand::execute(){
 
     if (cmd_args.size() > 1) {
         if(cmd_args[1] == "kill"){
-            std::cout << "smash: sending SIGKILL to " << jobs -> getNumOfJobs()<< " jobs:" << endl;
+            std::cout << "smash: sending SIGKILL signal to " << jobs -> getNumOfJobs()<< " jobs:" << endl;
             jobs -> killAllJobs();
         }
     }
@@ -442,6 +442,7 @@ void KillCommand::execute(){
 
     if(result != 0){
         perror("smash error: kill failed");
+        return;
     } else{
         string temp = "signal number " + to_string(signum) + " was sent to pid " + to_string(pid_to_kill) + "\n";
         write(this -> getFileInt(), temp.c_str(), strlen(temp.c_str()));
@@ -503,6 +504,7 @@ void ForegroundCommand::execute(){
 
     if(result != 0){
         perror("smash error: kill failed");
+        return;
     } else{
         std::cout << je_ptr -> getCMDLine() << " : " << pid_to_fg << endl;
     }
@@ -576,6 +578,7 @@ void BackgroundCommand::execute(){
     if(result != 0){
 
         perror("smash error: kill failed");
+        return;
     }
 
     // Change stopped status in JobsList;
@@ -711,7 +714,7 @@ void ChangePromptCommand::execute(){
 //    char** args = (char**)malloc(COMMAND_MAX_ARGS*sizeof(char*));
     std::vector<string> cmd_args = _parseCommandLine(this->cmd_line);
 
-    if(cmd_args[1] == "-"){
+    if(cmd_args.size() == 1){
         small_shell_name = INIT_SMALL_SHELL_NAME;
     }else{
         small_shell_name = cmd_args[1];
@@ -732,33 +735,41 @@ void ChangeDirCommand::execute()
     throw std::invalid_argument("smash error: cd: too many arguments");
   }
 
-  if (cmd_args[1] == "-")
+  if (cmd_args[1] != "-")
   {
     char* buf = new char [PATH_MAX] ;
     getcwd(buf, PATH_MAX);
-    if(prevPwd != prevPwd) {
-        prevPwd = "";
-    }
-    prevPwd = buf;
+//    if(prevPwd != prevPwd) {
+//        prevPwd = "";
+//    }
     string new_pwd = cmd_args[1];
     int ret = chdir(new_pwd.c_str());
     if (ret == -1)
     {
-      perror("smash error: cd failed");
+        delete[] buf;
+      perror("smash error: chdir failed");
+      return;
     }
+    prevPwd = string(buf);
+    delete[] buf;
   }
   else
   {
-    if (!(prevPwd == ""))
+    if (prevPwd == "")
     {
       throw std::invalid_argument("smash error: cd: OLDPWD not set");
     }
+    char* buf = new char [PATH_MAX] ;
+    getcwd(buf, PATH_MAX);
     int ret = chdir(prevPwd.c_str());
-    prevPwd = "";
-    if (ret == -1)
+    if(ret == -1)
     {
-      perror("smash error: cd failed");
+        delete[] buf;
+      perror("smash error: chdir failed");
+      return;
     }
+    prevPwd = string(buf);
+    delete[] buf;
   }
 }
 
@@ -820,7 +831,7 @@ void HeadCommand::execute()
     std::vector<string> cmd_args = _parseCommandLine(this->cmd_line);
 
     if ((cmd_args.size() < 2) || (cmd_args[1][0] == '-' && cmd_args.size() == 2)) {
-        throw std::invalid_argument("smash error: head: not enough arguments\n");
+        throw std::invalid_argument("smash error: head: not enough arguments");
     }
     string file_to_read_s;
     if (cmd_args.size() == 3)
@@ -847,6 +858,7 @@ void HeadCommand::execute()
     if (open_res == -1)
     {
         perror("smash error: open failed");
+        return;
     }
     char* character = new char [1];
     int read_res = read(open_res,character, 1);
@@ -859,13 +871,15 @@ void HeadCommand::execute()
             delete[] character;
             close(open_res);
             perror("smash error: read failed");
+            return;
         }
         write_res = write (this->getFileInt(), character, 1);
         if  (write_res == -1)
         {
             delete[] character;
             close(open_res);
-            perror("smash error: write failed");  
+            perror("smash error: write failed");
+            return;
         }
         if (*character == '\n') rows_count++;
         if (rows_count == rowsNum) break;
