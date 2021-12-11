@@ -318,11 +318,11 @@ void QuitCommand::execute(){
     exit(0);
 }
 
-TimeOutList::TimeOutEntry::TimeOutEntry(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID):
-        processID(processID),cmd_line(cmd_line), timestamp(timestamp), duration(duration), timerProcessID(timerProcessID){}
+TimeOutList::TimeOutEntry::TimeOutEntry(int processID, string cmd_line, time_t timestamp, int duration):
+        processID(processID),cmd_line(cmd_line), timestamp(timestamp), duration(duration){}
 
-void TimeOutList::addTimeOutProcess(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID) {
-    TimeOutEntry toe = TimeOutEntry(processID, cmd_line, timestamp, duration, timerProcessID);
+void TimeOutList::addTimeOutProcess(int processID, string cmd_line, time_t timestamp, int duration) {
+    TimeOutEntry toe = TimeOutEntry(processID, cmd_line, timestamp, duration);
     this -> timeoutJobs.push_back(toe);//.insert(je);
     this -> timeoutJobs.sort();
 }
@@ -331,12 +331,12 @@ void TimeOutList::removeTimeOutEntry(pid_t pid_to_remove){
     std::list<TimeOutEntry>::iterator it;
     for (it = timeoutJobs.begin(); it != timeoutJobs.end(); ){
         TimeOutEntry temp = *it;
-        if(temp.getProcessID() == pid_to_remove){
-            // Kill Timer
-            kill(temp.getTimerProcessID(), SIGKILL);
-            int status;
-            waitpid(temp.getTimerProcessID(), &status, WUNTRACED);
-        }
+//        if(temp.getProcessID() == pid_to_remove){
+//            // Kill Timer
+//            kill(temp.getTimerProcessID(), SIGKILL);
+//            int status;
+//            waitpid(temp.getTimerProcessID(), &status, WUNTRACED);
+//        }
         ++it;
         if(temp.getProcessID() == pid_to_remove){
             // Remove from list
@@ -385,30 +385,31 @@ void TimeOutCommand::execute(){
 
     SmallShell& smash = SmallShell::getInstance();
 
-    pid_t timer_pid = fork();
+//    pid_t timer_pid = fork();
 
 //    sleep(this -> duration);
 
-    if(timer_pid == 0){
-        setpgrp();
-        // Son
-//        usleep((this -> duration)*1000000);
+//    if(timer_pid == 0){
+//        setpgrp();
+//        // Son
+////        usleep((this -> duration)*1000000);
+//
+////        clock_t time_end = clock() + (this -> duration);
+////        while(clock() < time_end)
+////        {
+////        }
+//
+//        sleep(this -> duration);
+//
+//        kill(getppid(), SIGALRM);
+//        exit(0);
 
-//        clock_t time_end = clock() + (this -> duration);
-//        while(clock() < time_end)
-//        {
-//        }
-
-        sleep(this -> duration);
-
-        kill(getppid(), SIGALRM);
-        exit(0);
-
-    }else{
+//    }else{
         //Father
-        TimeOutList::TimeOutEntry toe = TimeOutList::TimeOutEntry(0, this->getCMDLine(), time(nullptr), this -> duration, timer_pid);
-        pid_t pid = smash.executeCommand(this->cmd_to_execute, true, &toe);
-    }
+        alarm(this -> duration);
+        TimeOutList::TimeOutEntry toe = TimeOutList::TimeOutEntry(0, this->getCMDLine(), time(nullptr), this -> duration);
+        smash.executeCommand(this->cmd_to_execute, true, &toe);
+//    }
 
 }
 
