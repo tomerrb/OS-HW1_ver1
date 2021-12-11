@@ -11,33 +11,27 @@ smash> smash error: kill: invalid arguments
 smash> smash error: kill: invalid arguments
 smash> smash error: kill: invalid arguments
 smash> smash error: kill: invalid arguments
-smash> signal number 9 was sent to pid 8852
+smash> signal number 9 was sent to pid 15628
 smash> smash error: kill: job-id 1 does not exist
 smash> smash> smash> smash error: kill failed: Invalid argument
-smash> [1] sleep 10& : 8853 0 secs
-smash> smash> [1] sleep 10& : 8853 0 secs
-[2] sleep 5& : 8854 0 secs
-smash> smash> [1] sleep 10& : 8853 2 secs
-[2] sleep 5& : 8854 2 secs
-[3] sleep 3& : 8855 1 secs
+smash> basic_string::_M_construct null not valid
+smash> smash> basic_string::_M_construct null not valid
+smash> smash> basic_string::_M_construct null not valid
 smash> smash error: kill: invalid arguments
 smash> smash error: kill: invalid arguments
-smash> smash> smash> [1] sleep 10 & : 8857 4 secs
-smash> signal number 9 was sent to pid 8857
+smash> smash> smash> basic_string::_M_construct null not valid
+smash> signal number 9 was sent to pid 25198
 smash> smash> smash> smash> smash: got ctrl-Z
-smash: process 8860 was stopped
-smash> [1] sleep 5& : 8858 0 secs
-[2]           sleep        10   & : 8859 0 secs
-[3] sleep 15 : 8860 0 secs (stopped)
-smash> signal number 9 was sent to pid 8858
-smash> [2]           sleep        10   & : 8859 1 secs
-[3] sleep 15 : 8860 1 secs (stopped)
-smash> signal number 9 was sent to pid 8859
-smash> [3] sleep 15 : 8860 1 secs (stopped)
-smash> signal number 9 was sent to pid 8860
-smash> smash> smash> signal number 19 was sent to pid 8861
-smash> [1] sleep 10& : 8861 2 secs
+smash: process 28018 was stopped
+smash> basic_string::_M_construct null not valid
+smash> signal number 9 was sent to pid 27854
+smash> basic_string::_M_construct null not valid
+smash> signal number 9 was sent to pid 27936
+smash> basic_string::_M_construct null not valid
+smash> signal number 9 was sent to pid 28018
+smash> smash> smash> signal number 19 was sent to pid 28735
+smash> basic_string::_M_construct null not valid
 smash> smash: got ctrl-C
-smash: process 8862 was killed
-smash> signal number 9 was sent to pid 8861
+smash: process 6266 was killed
+smash> signal number 9 was sent to pid 28735
 smash> smash: sending SIGKILL signal to 0 jobs:

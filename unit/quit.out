@@ -1,11 +1,8 @@
 smash> smash> smash> /tmp/smash_test
-smash> smash pid is 8928
+smash> smash pid is 23080
 smash> smash: got ctrl-Z
-smash: process 8931 was stopped
-smash> [1] sleep 100& : 8929 0 secs
-[2] sleep 50& : 8930 0 secs
-[3] sleep 20 : 8931 0 secs (stopped)
+smash: process 24214 was stopped
+smash> basic_string::_M_construct null not valid
 smash> smash: sending SIGKILL signal to 3 jobs:
-8929: sleep 100&
-8930: sleep 50&
-8931: sleep 20
+basic_string::_M_construct null not valid
+smash> 
