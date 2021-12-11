@@ -125,9 +125,10 @@ public:
         pid_t timerProcessID;
         time_t timestamp;
         int duration;
+        bool is_finished = false;
     public:
-        TimeOutEntry(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID);
-        TimeOutEntry() = default;
+        TimeOutEntry(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID,
+                     bool is_finished = false);
         bool operator<(TimeOutEntry const& je) const;
         bool operator==(TimeOutEntry const& je) const;
         int getProcessID(){return processID;};
@@ -141,15 +142,19 @@ public:
         };
         string getCMDLine(){return cmd_line;};
         void changeProcessID(pid_t new_pid){this ->processID = new_pid;};
+        void finish(){this -> is_finished = true;};
+        bool isFinished(){return this -> is_finished;};
     };
 private:
     list<TimeOutEntry> timeoutJobs;
 public:
     TimeOutList() = default;
     ~TimeOutList() = default;
-    void addTimeOutProcess(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID);
+    void addTimeOutProcess(int processID, string cmd_line, time_t timestamp, int duration, int timerProcessID, bool is_finished = false);
     void addTimeOutEntry(TimeOutEntry toe);
     void removeTimeOutEntry(pid_t pid_to_remove);
+    void finishTimeOutEntry(pid_t pid_to_remove);
+    TimeOutEntry* getTimeOutEntry(pid_t pid);
     friend void alarmHandler(int sig_num);
 //    void removeFinishedJobs();
 //    bool isEmpty(){return jobs.empty();};
@@ -289,8 +294,16 @@ class SmallShell {
   void removeTimeOut(pid_t pid_to_remove){
       timeouts.removeTimeOutEntry(pid_to_remove);
   }
+  void finishTimeOut(pid_t pid_to_remove){
+      timeouts.finishTimeOutEntry(pid_to_remove);
+  }
+  TimeOutList::TimeOutEntry* getTimeOutEntry(pid_t pid){
+      return this->timeouts.getTimeOutEntry(pid);
+  }
 
   friend void alarmHandler(int sig_num);
+  friend void ForegroundCommand::execute();
+  friend void BackgroundCommand::execute();
 
   // TODO: add extra methods as needed
 };
