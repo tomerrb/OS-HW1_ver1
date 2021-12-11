@@ -168,7 +168,9 @@ public:
    bool stopped;
   public:
    JobEntry(int jobID, string cmd_line, int processID, time_t begin_time);
-   JobEntry() = default;
+   JobEntry() {
+       jobID = -1; cmd_line = "";  processID = 0; begin_time = time(nullptr);
+   }
    bool operator<(JobEntry const& je) const;
    bool operator==(JobEntry const& je) const;
    int getJobID(){return jobID;};
@@ -188,7 +190,7 @@ public:
   void addJob(Command* cmd, bool isStopped = false);
   void addJobEntry(JobEntry je, bool isStopped);
   void printJobsList(int file_int);
-  void killAllJobs();
+  void killAllJobs(int file_int);
   void removeFinishedJobs();
   JobEntry * getJobById(int jobId);
   void removeJobById(int jobId);
@@ -278,7 +280,7 @@ class SmallShell {
       jobs.getLastJob(&new_job_id);
       return new_job_id;
   }
-  void updateFGJobEntry(JobsList::JobEntry je){fgJobEntry = je;};
+  void updateFGJobEntry(JobsList::JobEntry je){this -> fgJobEntry = je;};
   JobsList::JobEntry getFGJobEntry(){return fgJobEntry;};
   void addTimeOut(TimeOutList::TimeOutEntry toe){
       this->timeouts.addTimeOutProcess(toe.getProcessID(), toe.getCMDLine(),

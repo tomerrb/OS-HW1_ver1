@@ -1,8 +1,41 @@
 smash> my_sleep
 random1.txt
 ransmash> look here
-smash> /bin/bash: not_real_command: command not found
-smash> smash> smash> smash> my_sleep
+smash> bash: not_real_command: command not found
+smash> smash>  3147 pts/1    00:00:00 sleep <defunct>
+ 3148 pts/1    00:00:00 sleep <defunct>
+ 3150 pts/1    00:00:00 sleep <defunct>
+ 3151 pts/1    00:00:00 sleep <defunct>
+ 3152 pts/1    00:00:00 sleep <defunct>
+ 3153 pts/1    00:00:00 sleep <defunct>
+ 3154 pts/1    00:00:00 sleep <defunct>
+ 3155 pts/1    00:00:00 sleep <defunct>
+ 3157 pts/1    00:00:00 sleep <defunct>
+ 3158 pts/1    00:00:00 sleep <defunct>
+ 3160 pts/1    00:00:00 sleep <defunct>
+ 3193 pts/1    00:00:00 sleep <defunct>
+ 3194 pts/1    00:00:00 sleep <defunct>
+ 3196 pts/1    00:00:00 sleep <defunct>
+ 3197 pts/1    00:00:00 sleep <defunct>
+ 3198 pts/1    00:00:00 sleep <defunct>
+ 3199 pts/1    00:00:00 sleep <defunct>
+ 3200 pts/1    00:00:00 sleep <defunct>
+ 3201 pts/1    00:00:00 sleep <defunct>
+ 3203 pts/1    00:00:00 sleep <defunct>
+ 3204 pts/1    00:00:00 sleep <defunct>
+ 3206 pts/1    00:00:00 sleep <defunct>
+ 3821 pts/1    00:00:00 sleep <defunct>
+ 3822 pts/1    00:00:00 sleep <defunct>
+ 3824 pts/1    00:00:00 sleep <defunct>
+ 3825 pts/1    00:00:00 sleep <defunct>
+ 3826 pts/1    00:00:00 sleep <defunct>
+ 3827 pts/1    00:00:00 sleep <defunct>
+ 3828 pts/1    00:00:00 sleep <defunct>
+ 3829 pts/1    00:00:00 sleep <defunct>
+ 3831 pts/1    00:00:00 sleep <defunct>
+ 3832 pts/1    00:00:00 sleep <defunct>
+ 3837 pts/1    00:00:00 sleep <defunct>
+smash> smash> my_sleep
 random1.txt
 random2.txt
 sub1
@@ -11,20 +44,20 @@ sub3
 smash> 0
 2
 Done: 3
-smash> smash pid is 45126
-smash> smash pid is 45126
+smash> smash pid is 4879
+smash> smash pid is 4854
 smash> /tmp/smash_test
-smash> smash> smash> [1] sleep 20& : 45180 0 secs
-[2] sleep 10& : 45181 0 secs
-smash> signal number 9 was sent to pid 45180
-smash> signal number 9 was sent to pid 45181
-smash> smash> smash> signal number 9 was sent to pid 45196
+smash> smash> smash> [1] sleep 20& : 4884 0 secs
+[2] sleep 10& : 4885 0 secs
+smash> signal number 9 was sent to pid 4884
+smash> signal number 9 was sent to pid 4885
+smash> smash> smash> signal number 9 was sent to pid 4894
 smash> smash> r directory
 smash> r directory
-smash> PWD not set
-smash> y arguments
-smash> s not exist
-smash> d arguments
-smash> d arguments
+smash> smash error: cd: OLDPWD not set
+smash> smash error: cd: too many arguments
+smash> smash error: kill: job-id 30 does not exist
+smash> smash error: kill: invalid arguments
+smash> smash error: kill: job-id 1 does not exist
 smash> d not found
 smash> smash> smash: sending SIGKILL signal to 0 jobs:

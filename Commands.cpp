@@ -217,10 +217,6 @@ void PipeCommand::execute(){
 
 pid_t SmallShell::executeCommand(string cmd_line, bool is_timeout, TimeOutList::TimeOutEntry* toe_ptr) {
 
-//    std::cout << "cmd_line before" << cmd_line << endl;
-//    _removeBackgroundSign(cmd_line);
-//    std::cout << "cmd_line after" << cmd_line << endl;
-
   this->jobs.removeFinishedJobs();
 
     pid_t pid = 0;
@@ -257,6 +253,7 @@ pid_t SmallShell::executeCommand(string cmd_line, bool is_timeout, TimeOutList::
               this->fgJobEntry = JobsList::JobEntry(0, cmd->getCMDLine(), pid, time(NULL));
               int status;
               waitpid(pid, &status, WUNTRACED);
+              this->updateFGJobEntry(JobsList::JobEntry());
               if(is_timeout){
                   this -> removeTimeOut(pid);
               }
@@ -293,8 +290,12 @@ void QuitCommand::execute(){
 
     if (cmd_args.size() > 1) {
         if(cmd_args[1] == "kill"){
-            std::cout << "smash: sending SIGKILL signal to " << jobs -> getNumOfJobs()<< " jobs:" << endl;
-            jobs -> killAllJobs();
+
+            string temp_str =  "smash: sending SIGKILL signal to " + to_string(jobs -> getNumOfJobs()) + " jobs:" + "\n";
+            write(file_int, temp_str.c_str(), strlen(temp_str.c_str()));
+
+//            std::cout << "smash: sending SIGKILL signal to " << jobs -> getNumOfJobs()<< " jobs:" << endl;
+            jobs -> killAllJobs(this -> getFileInt());
         }
     }
 
@@ -385,11 +386,13 @@ void TimeOutCommand::execute(){
 
 
 
-void JobsList::killAllJobs(){
+void JobsList::killAllJobs(int file_int){
     std::list<JobEntry>::iterator it;
     for (it = jobs.begin(); it != jobs.end(); ){
         JobEntry temp = *it;
-        std::cout  << temp.getProcessID() << ": " << temp.getCMDLine() << endl;
+        string temp_str =  to_string(temp.getProcessID()) + ": " + temp.getCMDLine() + "\n";
+        write(file_int, temp_str.c_str(), strlen(temp_str.c_str()));
+//        std::cout  << temp.getProcessID() << ": " << temp.getCMDLine() << endl;
         kill(temp.getProcessID(), SIGKILL);
         ++it;
         this->jobs.remove(temp);
@@ -408,7 +411,11 @@ JobsList::JobEntry* JobsList::getJobById(int jobId){
     JobsList::JobEntry temp(jobId, "temp", 0, time(NULL));
     std::list<JobsList::JobEntry>::iterator it;
     it = std::find(this -> jobs.begin(),this -> jobs.end(), temp);
-    return &(*it);
+    if(it == this -> jobs.end()){
+        return nullptr;
+    }else{
+        return &(*it);
+    }
 }
 
 KillCommand::KillCommand(int file_int, string cmd_line, JobsList* jobs): jobs(jobs){
@@ -450,7 +457,12 @@ void KillCommand::execute(){
 }
 
 bool isDigits(string str){
-    for (char c : str) if (!isdigit(c)) return false;
+    if(str[0] != '-' && !isdigit(str[0])){
+        return false;
+    }
+    for (char c : str.substr(1)){
+        if (!isdigit(c)) return false;
+    }
     return true;
 }
 
@@ -463,7 +475,7 @@ void ForegroundCommand::execute(){
     std::vector<string> cmd_args = _parseCommandLine(this->cmd_line);
 
     if (cmd_args.size() > 2) {
-        throw std::invalid_argument("smash error: kill: invalid arguments");
+        throw std::invalid_argument("smash error: fg: invalid arguments");
     }
 
     int job_id_to_fg;
@@ -506,12 +518,15 @@ void ForegroundCommand::execute(){
         perror("smash error: kill failed");
         return;
     } else{
-        std::cout << je_ptr -> getCMDLine() << " : " << pid_to_fg << endl;
+        string temp =  je_ptr -> getCMDLine() + " : " + to_string(pid_to_fg) + "\n";
+        write(this -> file_int, temp.c_str(), strlen(temp.c_str()));
+//        std::cout << je_ptr -> getCMDLine() << " : " << pid_to_fg << endl;
     }
 
     int status;
     waitpid(pid_to_fg, &status, WUNTRACED);
     smash.removeTimeOut(pid_to_fg);
+    smash.updateFGJobEntry(JobsList::JobEntry());
 
 }
 
@@ -572,7 +587,9 @@ void BackgroundCommand::execute(){
     pid_t pid_to_bg = je_ptr -> getProcessID();
     string cmd_line = je_ptr -> getCMDLine();
 
-    std::cout << cmd_line << " : " << pid_to_bg << endl;
+    string temp =  cmd_line + " : " + to_string(pid_to_bg) + "\n";
+    write(this -> file_int, temp.c_str(), strlen(temp.c_str()));
+
     int result = kill(pid_to_bg, SIGCONT);
 
     if(result != 0){
