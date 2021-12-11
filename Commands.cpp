@@ -126,6 +126,10 @@ Command * SmallShell::CreateCommand(string cmd_line) {
         }
     }
 
+    if(cmd_to_execute_s == cmd_s){
+        cmd_to_execute_s = cmd_line;
+    }
+
    if (firstWord == "pwd") {
       return new GetCurrDirCommand(file_int, cmd_to_execute_s);
    }
@@ -189,21 +193,24 @@ void PipeCommand::execute(){
     SmallShell& smash = SmallShell::getInstance();
     int fd[2];
     pipe(fd);
-    if(fork() == 0){
-        setpgrp();
+//    if(fork() == 0){
+//        setpgrp();
         // Son
-        close(fd[0]);
+//        close(fd[0]);
 //        Command* cmd1 = smash.CreateCommand(this -> cmd_line_1);
 //        cmd1 -> changeFileInt(fd[1]);
 //        cmd1 -> execute();
 ////        close(fd[1]);
 //        exit(0);
+        int old_fd_redirect = dup(this -> fd_redirect);
         dup2(fd[1], this -> fd_redirect);
         smash.executeCommand(this -> cmd_line_1);
-        exit(0);
-
-    }else{
+        dup2(old_fd_redirect, this -> fd_redirect);
         close(fd[1]);
+//        exit(0);
+
+//    }else{
+//        close(fd[1]);
         //Father
 //        Command* cmd2 = smash.CreateCommand(this -> cmd_line_2);
         int old_fd = dup(0);
@@ -211,8 +218,8 @@ void PipeCommand::execute(){
 //        cmd2 -> execute();
         smash.executeCommand(this -> cmd_line_2);
         dup2(old_fd, 0);
-//        close(fd[0]);
-    }
+        close(fd[0]);
+//    }
 }
 
 pid_t SmallShell::executeCommand(string cmd_line, bool is_timeout, TimeOutList::TimeOutEntry* toe_ptr) {
@@ -418,6 +425,16 @@ JobsList::JobEntry* JobsList::getJobById(int jobId){
     }
 }
 
+bool isDigits(string str){
+    if(str[0] != '-' && !isdigit(str[0])){
+        return false;
+    }
+    for (char c : str.substr(1)){
+        if (!isdigit(c)) return false;
+    }
+    return true;
+}
+
 KillCommand::KillCommand(int file_int, string cmd_line, JobsList* jobs): jobs(jobs){
     this -> cmd_line = cmd_line;
     this -> file_int = file_int;
@@ -427,6 +444,18 @@ void KillCommand::execute(){
     std::vector<string> cmd_args = _parseCommandLine(this->cmd_line);
 
     if (cmd_args.size() != 3) {
+        throw std::invalid_argument("smash error: kill: invalid arguments");
+    }
+
+    if(cmd_args[1][0] != '-'){
+        throw std::invalid_argument("smash error: kill: invalid arguments");
+    }
+
+    if(!(isDigits(cmd_args[1]))){
+        throw std::invalid_argument("smash error: kill: invalid arguments");
+    }
+
+    if(!(isDigits(cmd_args[2]))){
         throw std::invalid_argument("smash error: kill: invalid arguments");
     }
 
@@ -454,16 +483,6 @@ void KillCommand::execute(){
         string temp = "signal number " + to_string(signum) + " was sent to pid " + to_string(pid_to_kill) + "\n";
         write(this -> getFileInt(), temp.c_str(), strlen(temp.c_str()));
     }
-}
-
-bool isDigits(string str){
-    if(str[0] != '-' && !isdigit(str[0])){
-        return false;
-    }
-    for (char c : str.substr(1)){
-        if (!isdigit(c)) return false;
-    }
-    return true;
 }
 
 ForegroundCommand::ForegroundCommand(int file_int, string cmd_line, JobsList* jobs): jobs(jobs){
