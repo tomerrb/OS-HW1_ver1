@@ -11,20 +11,20 @@ sub3
 smash> 0
 2
 Done: 3
-smash> smash pid is 7466
-smash> smash pid is 7466
+smash> smash pid is 8988
+smash> smash pid is 8988
 smash> /tmp/smash_test
-smash> smash> smash> [1] sleep 20& : 7485 0 secs
-[2] sleep 10& : 7486 0 secs
-smash> signal number 9 was sent to pid 7485
-smash> signal number 9 was sent to pid 7486
-smash> smash> smash> signal number 9 was sent to pid 7491
+smash> smash> smash> [1] sleep 20& : 9007 0 secs
+[2] sleep 10& : 9008 0 secs
+smash> signal number 9 was sent to pid 9007
+smash> signal number 9 was sent to pid 9008
+smash> smash> smash> signal number 9 was sent to pid 9013
 smash> smash> r directory
 smash> r directory
 smash> smash error: cd: OLDPWD not set
 smash> smash error: cd: too many arguments
 smash> smash error: kill: job-id 30 does not exist
 smash> smash error: kill: invalid arguments
-smash> smash error: kill: job-id 1 does not exist
+smash> smash error: kill: invalid arguments
 smash> d not found
 smash> smash> smash: sending SIGKILL signal to 0 jobs:

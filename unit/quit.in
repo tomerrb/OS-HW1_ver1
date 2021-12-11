@@ -1,7 +1,7 @@
 sleep 100&
 sleep 50&
 pwd
-showpid&
+showpid
 sleep 20
 CtrlZ
 jobs

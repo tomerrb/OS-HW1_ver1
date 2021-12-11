@@ -112,6 +112,11 @@ Command * SmallShell::CreateCommand(string cmd_line) {
         }
   }
 
+  if(file_int == -1){
+      perror("smash error: open failed");
+      return nullptr;
+  }
+
     found = cmd_s.find("|&");
     if(found != string::npos){
         return new PipeCommand(1, cmd_to_execute_s,
@@ -229,6 +234,10 @@ pid_t SmallShell::executeCommand(string cmd_line, bool is_timeout, TimeOutList::
     pid_t pid = 0;
 
   Command* cmd = CreateCommand(cmd_line);
+  if(cmd == nullptr){
+      return 0;
+  }
+
   if(cmd->isExternal()){
       pid = fork();
       if (pid == 0) {
@@ -354,13 +363,25 @@ TimeOutCommand::TimeOutCommand(int file_int, string cmd_line){
 
     this ->file_int = file_int;
     this -> cmd_line = cmd_line;
-    std::vector<string> cmd_args = _parseCommandLine(this->cmd_line);
-    this -> duration = stoi(cmd_args[1]);
-    std::size_t found = cmd_line.find(cmd_args[1]);
-    this -> cmd_to_execute = cmd_line.substr(found+cmd_args[1].size());
+
 }
 
 void TimeOutCommand::execute(){
+
+    std::vector<string> cmd_args = _parseCommandLine(this->cmd_line);
+
+    if(cmd_args.size() < 3){
+        throw std::invalid_argument("smash error: timeout: invalid arguments");
+    }
+
+    this -> duration = stoi(cmd_args[1]);
+
+    if(this -> duration < 0){
+        throw std::invalid_argument("smash error: timeout: invalid arguments");
+    }
+
+    std::size_t found = cmd_line.find(cmd_args[1]);
+    this -> cmd_to_execute = cmd_line.substr(found+cmd_args[1].size());
 
     SmallShell& smash = SmallShell::getInstance();
 
