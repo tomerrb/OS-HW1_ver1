@@ -185,6 +185,17 @@ Command * SmallShell::CreateCommand(string cmd_line) {
   return nullptr;
 }
 
+TimeOutList::TimeOutEntry* TimeOutList::getTimeOutEntry(pid_t pid){
+    std::list<TimeOutEntry>::iterator it;
+    for (it = timeoutJobs.begin(); it != timeoutJobs.end(); ++it){
+        if(it -> getProcessID() == pid){
+            // Remove from list
+            return &*it;
+        }
+    }
+    return nullptr;
+}
+
 PipeCommand::PipeCommand(int file_int, string cmd_line, string cmd_line_1, string cmd_line_2, int fd_redirect){
     this -> file_int = file_int;
     this -> cmd_line = cmd_line;
@@ -270,7 +281,7 @@ pid_t SmallShell::executeCommand(string cmd_line, bool is_timeout, TimeOutList::
               int status;
               waitpid(pid, &status, WUNTRACED);
               this->updateFGJobEntry(JobsList::JobEntry());
-              if(is_timeout){
+              if(is_timeout && !(WIFSTOPPED(status))){
                   this -> removeTimeOut(pid);
               }
           }
@@ -303,6 +314,18 @@ QuitCommand::QuitCommand(int file_int, string cmd_line, JobsList* jobs): jobs(jo
 
 void QuitCommand::execute(){
     std::vector<string> cmd_args = _parseCommandLine(this->cmd_line);
+
+    SmallShell& smash = SmallShell::getInstance();
+
+    std::list<pid_t>::iterator pid_it;
+    for (pid_it = smash.timers_pids.begin(); pid_it != smash.timers_pids.end(); ){
+        pid_t temp = *pid_it;
+        kill(temp, SIGKILL);
+        int status;
+        waitpid(temp, &status, WUNTRACED);
+        ++pid_it;
+        smash.timers_pids.remove(temp);
+    }
 
     if (cmd_args.size() > 1) {
         if(cmd_args[1] == "kill"){
@@ -424,7 +447,18 @@ void JobsList::killAllJobs(int file_int){
     std::list<JobEntry>::iterator it;
     for (it = jobs.begin(); it != jobs.end(); ){
         JobEntry temp = *it;
-        string temp_str =  to_string(temp.getProcessID()) + ": " + temp.getCMDLine() + "\n";
+
+        string cmd_line_to_print = "";
+        SmallShell& smash = SmallShell::getInstance();
+
+        TimeOutList::TimeOutEntry* toe_ptr = smash.getTimeOutEntry(temp.getProcessID());
+        if(toe_ptr != nullptr){
+            cmd_line_to_print = toe_ptr -> getCMDLine();
+        }else{
+            cmd_line_to_print = temp.getCMDLine();
+        }
+
+        string temp_str =  to_string(temp.getProcessID()) + ": " + cmd_line_to_print + "\n";
         write(file_int, temp_str.c_str(), strlen(temp_str.c_str()));
 //        std::cout  << temp.getProcessID() << ": " << temp.getCMDLine() << endl;
         kill(temp.getProcessID(), SIGKILL);
@@ -564,14 +598,26 @@ void ForegroundCommand::execute(){
         perror("smash error: kill failed");
         return;
     } else{
-        string temp =  je_ptr -> getCMDLine() + " : " + to_string(pid_to_fg) + "\n";
+
+        string cmd_line_to_print = "";
+
+        TimeOutList::TimeOutEntry* toe_ptr = smash.getTimeOutEntry(pid_to_fg);
+        if(toe_ptr != nullptr){
+            cmd_line_to_print = toe_ptr -> getCMDLine();
+        }else{
+            cmd_line_to_print = je_ptr -> getCMDLine();
+        }
+
+        string temp =  cmd_line_to_print + " : " + to_string(pid_to_fg) + "\n";
         write(this -> file_int, temp.c_str(), strlen(temp.c_str()));
 //        std::cout << je_ptr -> getCMDLine() << " : " << pid_to_fg << endl;
     }
 
     int status;
     waitpid(pid_to_fg, &status, WUNTRACED);
-    smash.removeTimeOut(pid_to_fg);
+    if(!(WIFSTOPPED(status))){
+        smash.removeTimeOut(pid_to_fg);
+    }
     smash.updateFGJobEntry(JobsList::JobEntry());
 
 }
@@ -631,7 +677,16 @@ void BackgroundCommand::execute(){
     }
 
     pid_t pid_to_bg = je_ptr -> getProcessID();
-    string cmd_line = je_ptr -> getCMDLine();
+    string cmd_line = "";
+
+    SmallShell& smash = SmallShell::getInstance();
+
+    TimeOutList::TimeOutEntry* toe_ptr = smash.getTimeOutEntry(pid_to_bg);
+    if(toe_ptr != nullptr){
+        cmd_line = toe_ptr -> getCMDLine();
+    }else{
+        cmd_line = je_ptr -> getCMDLine();
+    }
 
     string temp =  cmd_line + " : " + to_string(pid_to_bg) + "\n";
     write(this -> file_int, temp.c_str(), strlen(temp.c_str()));
@@ -664,11 +719,23 @@ JobsList::JobEntry* JobsList::getLastStoppedJob(int *jobId){
 
 void JobsList::printJobsList(int file_int) {
 
+    SmallShell& smash = SmallShell::getInstance();
+
     string temp = "";
 
     std::list<JobEntry>::iterator it;
     for (it = jobs.begin(); it != jobs.end(); ++it){
-        temp = temp + "[" + to_string(it-> getJobID()) + "] " + it -> getCMDLine() + " : "
+
+        string cmd_line_to_print = "";
+
+        TimeOutList::TimeOutEntry* toe_ptr = smash.getTimeOutEntry(it->getProcessID());
+        if(toe_ptr != nullptr){
+            cmd_line_to_print = toe_ptr -> getCMDLine();
+        }else{
+            cmd_line_to_print = it -> getCMDLine();
+        }
+
+        temp = temp + "[" + to_string(it-> getJobID()) + "] " + cmd_line_to_print + " : "
         +  to_string(it -> getProcessID()) + " " + to_string(int(difftime(time(NULL), it -> getBeginTime())))
         + " secs";
         if(it->isStopped()) {

@@ -27,7 +27,7 @@ void ctrlZHandler(int sig_num) {
                                                    smash.getFGJobEntry().getProcessID(), time(NULL));
 
         smash.addJobEntry(je, true);
-        int kill_result = kill(smash.getFGJobEntry().getProcessID(), SIGSTOP);
+        kill(smash.getFGJobEntry().getProcessID(), SIGSTOP);
 
         std::cout << "smash: process " << smash.getFGJobEntry().getProcessID() << " was stopped" << endl;
 

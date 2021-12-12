@@ -150,6 +150,7 @@ public:
     void addTimeOutEntry(TimeOutEntry toe);
     void removeTimeOutEntry(pid_t pid_to_remove);
     friend void alarmHandler(int sig_num);
+    TimeOutEntry* getTimeOutEntry(pid_t pid);
 //    void removeFinishedJobs();
 //    bool isEmpty(){return jobs.empty();};
 //    int getNumOfJobs(){return jobs.size();};
@@ -288,9 +289,11 @@ class SmallShell {
   void removeTimeOut(pid_t pid_to_remove){
       timeouts.removeTimeOutEntry(pid_to_remove);
   }
+  TimeOutList::TimeOutEntry* getTimeOutEntry(pid_t pid){return this ->timeouts.getTimeOutEntry(pid);};
 
   friend void alarmHandler(int sig_num);
   friend void TimeOutCommand::execute();
+  friend void QuitCommand::execute();
 
   // TODO: add extra methods as needed
 };
