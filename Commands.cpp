@@ -915,9 +915,20 @@ void ExternalCommand::execute()
 
     char* temp_str = new char[strlen(temp.c_str())];
     strcpy(temp_str, temp.c_str());
-    char* args[]= {"bash", "-c", temp_str, NULL};
+
+    string bash_str = "bash";
+    char* bash_c_str = new char[strlen(bash_str.c_str())];
+    strcpy(bash_c_str, bash_str.c_str());
+
+    string _c_str = "-c";
+    char* _c_c_str = new char[strlen(_c_str.c_str())];
+    strcpy(_c_c_str, _c_str.c_str());
+
+    char* args[]= {bash_c_str, _c_c_str, temp_str, NULL};
     execv("/bin/bash", args);
     delete[] temp_str;
+    delete[] bash_c_str;
+    delete[] _c_c_str;
 
     exit(0);
 }
