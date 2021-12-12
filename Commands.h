@@ -259,7 +259,7 @@ class SmallShell {
   JobsList jobs;
   JobsList::JobEntry fgJobEntry;
   TimeOutList timeouts;
-
+  list<pid_t> timers_pids;
  public:
     SmallShell() = default;
   Command *CreateCommand(string cmd_line);
@@ -290,6 +290,7 @@ class SmallShell {
   }
 
   friend void alarmHandler(int sig_num);
+  friend void TimeOutCommand::execute();
 
   // TODO: add extra methods as needed
 };

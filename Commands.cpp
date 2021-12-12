@@ -385,32 +385,37 @@ void TimeOutCommand::execute(){
 
     SmallShell& smash = SmallShell::getInstance();
 
-//    pid_t timer_pid = fork();
+    pid_t timer_pid = fork();
 
-//    sleep(this -> duration);
+    if(timer_pid == 0){
+        setpgrp();
+        // Son
+//        usleep((this -> duration)*1000000);
 
-//    if(timer_pid == 0){
-//        setpgrp();
-//        // Son
-////        usleep((this -> duration)*1000000);
-//
-////        clock_t time_end = clock() + (this -> duration);
-////        while(clock() < time_end)
-////        {
-////        }
-//
-//        sleep(this -> duration);
-//
-//        kill(getppid(), SIGALRM);
-//        exit(0);
+//        clock_t time_end = clock() + (this -> duration);
+//        while(clock() < time_end)
+//        {
+//        }
 
-//    }else{
+        sleep(this -> duration);
+
+        kill(getppid(), SIGALRM);
+        exit(0);
+
+    }else{
         //Father
-        alarm(this -> duration);
+        smash.timers_pids.push_back(timer_pid);
         TimeOutList::TimeOutEntry toe = TimeOutList::TimeOutEntry(0, this->getCMDLine(), time(nullptr), this -> duration);
-        smash.executeCommand(this->cmd_to_execute, true, &toe);
-//    }
-
+        try {
+            smash.executeCommand(this->cmd_to_execute, true, &toe);
+        } catch (const std::exception& e) {
+            kill(timer_pid, SIGKILL);
+            int status;
+            waitpid(timer_pid, &status, WUNTRACED);
+            smash.timers_pids.remove(timer_pid);
+            throw e;
+        }
+    }
 }
 
 

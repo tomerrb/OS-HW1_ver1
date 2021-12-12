@@ -73,5 +73,13 @@ void alarmHandler(int sig_num) {
         }
     }
 
+    std::list<pid_t>::iterator pid_it;
+    for (pid_it = smash.timers_pids.begin(); pid_it != smash.timers_pids.end(); ){
+        pid_t temp = *pid_it;
+        int status;
+        waitpid(temp, &status, WNOHANG);
+        ++pid_it;
+        smash.timers_pids.remove(temp);
+    }
 }
 
