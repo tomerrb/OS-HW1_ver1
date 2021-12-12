@@ -45,7 +45,6 @@ void ctrlCHandler(int sig_num) {
         kill(smash.getFGJobEntry().getProcessID(), SIGKILL);
         std::cout << "smash: process " << smash.getFGJobEntry().getProcessID() << " was killed" << endl;
     }
-//    std::cout << "smash.getFGJobEntry().getProcessID() is: " << smash.getFGJobEntry().getProcessID() << endl;
 }
 
 void alarmHandler(int sig_num) {
@@ -59,15 +58,9 @@ void alarmHandler(int sig_num) {
     std::list<TimeOutList::TimeOutEntry>::iterator it;
     for (it = smash.timeouts.timeoutJobs.begin(); it != smash.timeouts.timeoutJobs.end(); ){
         TimeOutList::TimeOutEntry temp = *it;
-//        std::cout << "is it timed out: " << temp.isTimedOut() << endl;
         if(temp.isTimedOut()){
             std::cout  <<  "smash: " << temp.getCMDLine() << " timed out!" << endl;
             kill(temp.getProcessID(), SIGTERM);
-            // TODO: if i understand correctly, we do not need to wait here to the process.
-            //  it will eneter zombie and somewhere else we wait for it.
-//            kill(temp.getTimerProcessID(), SIGKILL);
-//            int status;
-//            waitpid(temp.getTimerProcessID(), &status, WUNTRACED);
         }
         ++it;
         if(temp.isTimedOut()) {

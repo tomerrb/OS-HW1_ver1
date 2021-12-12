@@ -11,14 +11,14 @@ sub3
 smash> 0
 2
 Done: 3
-smash> smash pid is 18396
-smash> smash pid is 18396
+smash> smash pid is 18861
+smash> smash pid is 18861
 smash> /tmp/smash_test
-smash> smash> smash> [1] sleep 20& : 18415 0 secs
-[2] sleep 10& : 18416 0 secs
-smash> signal number 9 was sent to pid 18415
-smash> signal number 9 was sent to pid 18416
-smash> smash> smash> signal number 9 was sent to pid 18421
+smash> smash> smash> [1] sleep 20& : 18880 0 secs
+[2] sleep 10& : 18881 0 secs
+smash> signal number 9 was sent to pid 18880
+smash> signal number 9 was sent to pid 18881
+smash> smash> smash> signal number 9 was sent to pid 18886
 smash> smash> r directory
 smash> r directory
 smash> smash error: cd: OLDPWD not set
