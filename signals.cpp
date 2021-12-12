@@ -53,6 +53,8 @@ void alarmHandler(int sig_num) {
     SmallShell& smash = SmallShell::getInstance();
     std::cout  <<  "smash: got an alarm" << endl;
 
+    smash.jobs.removeFinishedJobs();
+
     // Go to all timeout processes, if anyone has a duration that's too big, kill it.
     std::list<TimeOutList::TimeOutEntry>::iterator it;
     for (it = smash.timeouts.timeoutJobs.begin(); it != smash.timeouts.timeoutJobs.end(); ){
@@ -60,7 +62,7 @@ void alarmHandler(int sig_num) {
 //        std::cout << "is it timed out: " << temp.isTimedOut() << endl;
         if(temp.isTimedOut()){
             std::cout  <<  "smash: " << temp.getCMDLine() << " timed out!" << endl;
-            kill(temp.getProcessID(), SIGKILL);
+            kill(temp.getProcessID(), SIGTERM);
             // TODO: if i understand correctly, we do not need to wait here to the process.
             //  it will eneter zombie and somewhere else we wait for it.
 //            kill(temp.getTimerProcessID(), SIGKILL);

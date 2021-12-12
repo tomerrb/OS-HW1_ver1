@@ -11,33 +11,33 @@ smash> smash error: kill: invalid arguments
 smash> smash error: kill: invalid arguments
 smash> smash error: kill: invalid arguments
 smash> smash error: kill: invalid arguments
-smash> signal number 9 was sent to pid 14867
+smash> signal number 9 was sent to pid 15762
 smash> smash error: kill: job-id 1 does not exist
 smash> smash> smash> smash error: kill failed: Invalid argument
-smash> [1] sleep 10& : 14868 1 secs
-smash> smash> [1] sleep 10& : 14868 1 secs
-[2] sleep 5& : 14869 0 secs
-smash> smash> [1] sleep 10& : 14868 2 secs
-[2] sleep 5& : 14869 1 secs
-[3] sleep 3& : 14870 1 secs
+smash> [1] sleep 10& : 15763 0 secs
+smash> smash> [1] sleep 10& : 15763 0 secs
+[2] sleep 5& : 15764 0 secs
+smash> smash> [1] sleep 10& : 15763 1 secs
+[2] sleep 5& : 15764 1 secs
+[3] sleep 3& : 15765 1 secs
 smash> smash error: kill: invalid arguments
 smash> smash error: kill: invalid arguments
-smash> smash> smash> [1] sleep 10 & : 14871 3 secs
-smash> signal number 9 was sent to pid 14871
+smash> smash> smash> [1] sleep 10 & : 15766 3 secs
+smash> signal number 9 was sent to pid 15766
 smash> smash> smash> smash> smash: got ctrl-Z
-smash: process 14874 was stopped
-smash> [1] sleep 5& : 14872 1 secs
-[2]           sleep        10   & : 14873 1 secs
-[3] sleep 15 : 14874 1 secs (stopped)
-smash> signal number 9 was sent to pid 14872
-smash> [2]           sleep        10   & : 14873 1 secs
-[3] sleep 15 : 14874 1 secs (stopped)
-smash> signal number 9 was sent to pid 14873
-smash> [3] sleep 15 : 14874 1 secs (stopped)
-smash> signal number 9 was sent to pid 14874
-smash> smash> smash> signal number 19 was sent to pid 14875
-smash> [1] sleep 10& : 14875 3 secs
+smash: process 15769 was stopped
+smash> [1] sleep 5& : 15767 0 secs
+[2]           sleep        10   & : 15768 0 secs
+[3] sleep 15 : 15769 0 secs (stopped)
+smash> signal number 9 was sent to pid 15767
+smash> [2]           sleep        10   & : 15768 0 secs
+[3] sleep 15 : 15769 0 secs (stopped)
+smash> signal number 9 was sent to pid 15768
+smash> [3] sleep 15 : 15769 0 secs (stopped)
+smash> signal number 9 was sent to pid 15769
+smash> smash> smash> signal number 19 was sent to pid 15770
+smash> [1] sleep 10& : 15770 2 secs
 smash> smash: got ctrl-C
-smash: process 14876 was killed
-smash> signal number 9 was sent to pid 14875
+smash: process 15771 was killed
+smash> signal number 9 was sent to pid 15770
 smash> smash: sending SIGKILL signal to 0 jobs:
