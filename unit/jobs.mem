@@ -1,0 +1,1560 @@
+==16685== Memcheck, a memory error detector
+==16685== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==16685== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==16685== Command: /home/student/Desktop/OS-HW1_ver1/smash
+==16685== Parent PID: 16627
+==16685== 
+--16685-- 
+--16685-- Valgrind options:
+--16685--    -v
+--16685--    --leak-check=full
+--16685--    --log-file=/home/student/Desktop/OS-HW1_ver1/unit/jobs.mem
+--16685-- Contents of /proc/version:
+--16685--   Linux version 4.15.0-163-generic (buildd@lcy01-amd64-021) (gcc version 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04)) #171-Ubuntu SMP Fri Nov 5 11:55:11 UTC 2021
+--16685-- 
+--16685-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-avx-avx2
+--16685-- Page sizes: currently 4096, max supported 4096
+--16685-- Valgrind library directory: /usr/lib/valgrind
+--16685-- Reading syms from /home/student/Desktop/OS-HW1_ver1/smash
+--16685-- Reading syms from /lib/x86_64-linux-gnu/ld-2.27.so
+--16685--   Considering /lib/x86_64-linux-gnu/ld-2.27.so ..
+--16685--   .. CRC mismatch (computed 0ef8daab wanted 65bccefe)
+--16685--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.27.so ..
+--16685--   .. CRC is valid
+--16685-- Reading syms from /usr/lib/valgrind/memcheck-amd64-linux
+--16685--   Considering /usr/lib/valgrind/memcheck-amd64-linux ..
+--16685--   .. CRC mismatch (computed 41ddb025 wanted 9972f546)
+--16685--    object doesn't have a symbol table
+--16685--    object doesn't have a dynamic symbol table
+--16685-- Scheduler: using generic scheduler lock implementation.
+--16685-- Reading suppressions file: /usr/lib/valgrind/default.supp
+==16685== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-16685-by-student-on-???
+==16685== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-16685-by-student-on-???
+==16685== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-16685-by-student-on-???
+==16685== 
+==16685== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==16685== don't want to do, unless you know exactly what you're doing,
+==16685== or are doing some strange experiment):
+==16685==   /usr/lib/valgrind/../../bin/vgdb --pid=16685 ...command...
+==16685== 
+==16685== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==16685==   /path/to/gdb /home/student/Desktop/OS-HW1_ver1/smash
+==16685== and then give GDB the following command
+==16685==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=16685
+==16685== --pid is optional if only one valgrind process is running
+==16685== 
+--16685-- REDIR: 0x4020d20 (ld-linux-x86-64.so.2:strlen) redirected to 0x580608c1 (???)
+--16685-- REDIR: 0x4020b00 (ld-linux-x86-64.so.2:index) redirected to 0x580608db (???)
+--16685-- Reading syms from /usr/lib/valgrind/vgpreload_core-amd64-linux.so
+--16685--   Considering /usr/lib/valgrind/vgpreload_core-amd64-linux.so ..
+--16685--   .. CRC mismatch (computed 50df1b30 wanted 4800a4cf)
+--16685--    object doesn't have a symbol table
+--16685-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so
+--16685--   Considering /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so ..
+--16685--   .. CRC mismatch (computed f893b962 wanted 95ee359e)
+--16685--    object doesn't have a symbol table
+==16685== WARNING: new redirection conflicts with existing -- ignoring it
+--16685--     old: 0x04020d20 (strlen              ) R-> (0000.0) 0x580608c1 ???
+--16685--     new: 0x04020d20 (strlen              ) R-> (2007.0) 0x04c34db0 strlen
+--16685-- REDIR: 0x401d540 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4c35ee0 (strcmp)
+--16685-- REDIR: 0x4021260 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4c394f0 (mempcpy)
+--16685-- Reading syms from /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25
+--16685--    object doesn't have a symbol table
+--16685-- Reading syms from /lib/x86_64-linux-gnu/libgcc_s.so.1
+--16685--    object doesn't have a symbol table
+--16685-- Reading syms from /lib/x86_64-linux-gnu/libc-2.27.so
+--16685--   Considering /lib/x86_64-linux-gnu/libc-2.27.so ..
+--16685--   .. CRC mismatch (computed cb654923 wanted 8713c55a)
+--16685--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.27.so ..
+--16685--   .. CRC is valid
+--16685-- Reading syms from /lib/x86_64-linux-gnu/libm-2.27.so
+--16685--   Considering /lib/x86_64-linux-gnu/libm-2.27.so ..
+--16685--   .. CRC mismatch (computed 8017c758 wanted 0183ab3a)
+--16685--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libm-2.27.so ..
+--16685--   .. CRC is valid
+--16685-- REDIR: 0x547db70 (libc.so.6:memmove) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547ce80 (libc.so.6:strncpy) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547de50 (libc.so.6:strcasecmp) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547c8d0 (libc.so.6:strcat) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547ceb0 (libc.so.6:rindex) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547f5a0 (libc.so.6:rawmemchr) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547dce0 (libc.so.6:mempcpy) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547db10 (libc.so.6:bcmp) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547ce40 (libc.so.6:strncmp) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547c940 (libc.so.6:strcmp) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547dc40 (libc.so.6:memset) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x549aed0 (libc.so.6:wcschr) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547cde0 (libc.so.6:strnlen) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547c9b0 (libc.so.6:strcspn) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547dea0 (libc.so.6:strncasecmp) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547c980 (libc.so.6:strcpy) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547dfe0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547cee0 (libc.so.6:strpbrk) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547c900 (libc.so.6:index) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547cdb0 (libc.so.6:strlen) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x54874a0 (libc.so.6:memrchr) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547def0 (libc.so.6:strcasecmp_l) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547dae0 (libc.so.6:memchr) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x549bc90 (libc.so.6:wcslen) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547d190 (libc.so.6:strspn) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547de20 (libc.so.6:stpncpy) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547ddf0 (libc.so.6:stpcpy) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547f5d0 (libc.so.6:strchrnul) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x547df40 (libc.so.6:strncasecmp_l) redirected to 0x4a2c6e0 (_vgnU_ifunc_wrapper)
+--16685-- REDIR: 0x556d300 (libc.so.6:__strrchr_avx2) redirected to 0x4c34730 (rindex)
+--16685-- REDIR: 0x5476140 (libc.so.6:malloc) redirected to 0x4c31aa0 (malloc)
+--16685-- REDIR: 0x556d4d0 (libc.so.6:__strlen_avx2) redirected to 0x4c34cf0 (strlen)
+--16685-- REDIR: 0x5569ae0 (libc.so.6:__memcmp_avx2_movbe) redirected to 0x4c37e00 (bcmp)
+--16685-- REDIR: 0x5488c50 (libc.so.6:__strcmp_sse2_unaligned) redirected to 0x4c35da0 (strcmp)
+--16685-- REDIR: 0x556da10 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x4c386e0 (memmove)
+--16685-- REDIR: 0x556d9f0 (libc.so.6:__mempcpy_avx_unaligned_erms) redirected to 0x4c39130 (mempcpy)
+--16685-- REDIR: 0x5569360 (libc.so.6:__memchr_avx2) redirected to 0x4c35f80 (memchr)
+--16685-- REDIR: 0x4ed1280 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x4c32110 (operator new(unsigned long))
+--16687-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16687-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16687== Invalid write of size 1
+==16687==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16687==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==  Address 0x5b81d89 is 0 bytes after a block of size 9 alloc'd
+==16687==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16687==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687== 
+==16687== Invalid write of size 1
+==16687==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16687==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==  Address 0x5b81dd4 is 0 bytes after a block of size 4 alloc'd
+==16687==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16687==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687== 
+==16687== Invalid write of size 1
+==16687==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16687==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==  Address 0x5b81e22 is 0 bytes after a block of size 2 alloc'd
+==16687==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16687==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687== 
+==16687== Syscall param execve(argv[i]) points to unaddressable byte(s)
+--16685-- REDIR: 0x4ecf390 (libstdc++.so.6:operator delete(void*)) redirected to 0x4c331d0 (operator delete(void*))
+==16687==    at 0x54C3C07: execve (syscall-template.S:78)
+==16687==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==  Address 0x5b81dd4 is 0 bytes after a block of size 4 alloc'd
+==16687==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16687==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16687== 
+--16688-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16688-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16688== Invalid write of size 1
+==16688==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16688==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==  Address 0x5b81e99 is 0 bytes after a block of size 9 alloc'd
+==16688==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16688==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688== 
+==16688== Invalid write of size 1
+==16688==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16688==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==  Address 0x5b81ee4 is 0 bytes after a block of size 4 alloc'd
+==16688==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16688==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688== 
+==16688== Invalid write of size 1
+==16688==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16688==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==  Address 0x5b81f32 is 0 bytes after a block of size 2 alloc'd
+==16688==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16688==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688== 
+==16688== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16688==    at 0x54C3C07: execve (syscall-template.S:78)
+==16688==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==  Address 0x5b81ee4 is 0 bytes after a block of size 4 alloc'd
+==16688==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16688==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16688== 
+--16691-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16691-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16691== Invalid write of size 1
+==16691==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16691==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==  Address 0x5b81fa9 is 0 bytes after a block of size 9 alloc'd
+==16691==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16691==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691== 
+==16691== Invalid write of size 1
+==16691==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16691==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==  Address 0x5b81ff4 is 0 bytes after a block of size 4 alloc'd
+==16691==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16691==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691== 
+==16691== Invalid write of size 1
+==16691==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16691==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==  Address 0x5b82042 is 0 bytes after a block of size 2 alloc'd
+==16691==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16691==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691== 
+==16691== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16691==    at 0x54C3C07: execve (syscall-template.S:78)
+==16691==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==  Address 0x5b81ff4 is 0 bytes after a block of size 4 alloc'd
+==16691==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16691==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16691== 
+--16692-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16692-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16692== Invalid write of size 1
+==16692==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16692==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==  Address 0x5b820b9 is 0 bytes after a block of size 9 alloc'd
+==16692==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16692==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692== 
+==16692== Invalid write of size 1
+==16692==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16692==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==  Address 0x5b82104 is 0 bytes after a block of size 4 alloc'd
+==16692==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16692==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692== 
+==16692== Invalid write of size 1
+==16692==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16692==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==  Address 0x5b82152 is 0 bytes after a block of size 2 alloc'd
+==16692==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16692==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692== 
+==16692== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16692==    at 0x54C3C07: execve (syscall-template.S:78)
+==16692==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==  Address 0x5b82104 is 0 bytes after a block of size 4 alloc'd
+==16692==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16692==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16692== 
+--16695-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16695-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16695== Invalid write of size 1
+==16695==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16695==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==  Address 0x5b821c8 is 0 bytes after a block of size 8 alloc'd
+==16695==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16695==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695== 
+==16695== Invalid write of size 1
+==16695==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16695==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==  Address 0x5b82214 is 0 bytes after a block of size 4 alloc'd
+==16695==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16695==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695== 
+==16695== Invalid write of size 1
+==16695==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16695==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==  Address 0x5b82262 is 0 bytes after a block of size 2 alloc'd
+==16695==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16695==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695== 
+==16695== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16695==    at 0x54C3C07: execve (syscall-template.S:78)
+==16695==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==  Address 0x5b82214 is 0 bytes after a block of size 4 alloc'd
+==16695==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16695==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16695== 
+--16696-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16696-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16696== Invalid write of size 1
+==16696==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16696==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==  Address 0x5b822d9 is 0 bytes after a block of size 9 alloc'd
+==16696==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16696==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696== 
+==16696== Invalid write of size 1
+==16696==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16696==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==  Address 0x5b82324 is 0 bytes after a block of size 4 alloc'd
+==16696==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16696==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696== 
+==16696== Invalid write of size 1
+==16696==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16696==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==  Address 0x5b82372 is 0 bytes after a block of size 2 alloc'd
+==16696==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16696==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696== 
+==16696== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16696==    at 0x54C3C07: execve (syscall-template.S:78)
+==16696==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==  Address 0x5b82324 is 0 bytes after a block of size 4 alloc'd
+==16696==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16696==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16696== 
+--16697-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16697-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16697== Invalid write of size 1
+==16697==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16697==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==  Address 0x5b823e9 is 0 bytes after a block of size 9 alloc'd
+==16697==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16697==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697== 
+==16697== Invalid write of size 1
+==16697==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16697==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==  Address 0x5b82434 is 0 bytes after a block of size 4 alloc'd
+==16697==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16697==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697== 
+==16697== Invalid write of size 1
+==16697==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16697==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==  Address 0x5b82482 is 0 bytes after a block of size 2 alloc'd
+==16697==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16697==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697== 
+==16697== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16697==    at 0x54C3C07: execve (syscall-template.S:78)
+==16697==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==  Address 0x5b82434 is 0 bytes after a block of size 4 alloc'd
+==16697==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16697==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16697== 
+--16685-- REDIR: 0x556d110 (libc.so.6:__strchrnul_avx2) redirected to 0x4c39020 (strchrnul)
+--16698-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16698-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16698== Invalid write of size 1
+==16698==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16698==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==  Address 0x5b83e59 is 0 bytes after a block of size 9 alloc'd
+==16698==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16698==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698== 
+==16698== Invalid write of size 1
+==16698==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16698==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==  Address 0x5b83ea4 is 0 bytes after a block of size 4 alloc'd
+==16698==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16698==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698== 
+==16698== Invalid write of size 1
+==16698==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16698==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==  Address 0x5b83ef2 is 0 bytes after a block of size 2 alloc'd
+==16698==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16698==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698== 
+==16698== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16698==    at 0x54C3C07: execve (syscall-template.S:78)
+==16698==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==  Address 0x5b83ea4 is 0 bytes after a block of size 4 alloc'd
+==16698==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16698==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16698== 
+--16699-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16699-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16699== Invalid write of size 1
+==16699==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16699==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==  Address 0x5b83f69 is 0 bytes after a block of size 9 alloc'd
+==16699==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16699==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699== 
+==16699== Invalid write of size 1
+==16699==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16699==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==  Address 0x5b83fb4 is 0 bytes after a block of size 4 alloc'd
+==16699==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16699==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699== 
+==16699== Invalid write of size 1
+==16699==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16699==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==  Address 0x5b84002 is 0 bytes after a block of size 2 alloc'd
+==16699==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16699==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699== 
+==16699== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16699==    at 0x54C3C07: execve (syscall-template.S:78)
+==16699==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==  Address 0x5b83fb4 is 0 bytes after a block of size 4 alloc'd
+==16699==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16699==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16699== 
+--16700-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16700-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16700== Invalid write of size 1
+==16700==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16700==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==  Address 0x5b88a0a is 0 bytes after a block of size 10 alloc'd
+==16700==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16700==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700== 
+==16700== Invalid write of size 1
+==16700==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16700==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==  Address 0x5b88a54 is 0 bytes after a block of size 4 alloc'd
+==16700==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16700==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700== 
+==16700== Invalid write of size 1
+==16700==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16700==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==  Address 0x5b88aa2 is 0 bytes after a block of size 2 alloc'd
+==16700==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16700==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700== 
+==16700== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16700==    at 0x54C3C07: execve (syscall-template.S:78)
+==16700==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==  Address 0x5b88a54 is 0 bytes after a block of size 4 alloc'd
+==16700==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16700==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16700== 
+--16701-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16701-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16701== Invalid write of size 1
+==16701==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16701==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==  Address 0x5b8d49a is 0 bytes after a block of size 10 alloc'd
+==16701==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16701==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701== 
+==16701== Invalid write of size 1
+==16701==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16701==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==  Address 0x5b8d4e4 is 0 bytes after a block of size 4 alloc'd
+==16701==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16701==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701== 
+==16701== Invalid write of size 1
+==16701==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16701==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==  Address 0x5b8d532 is 0 bytes after a block of size 2 alloc'd
+==16701==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16701==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701== 
+==16701== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16701==    at 0x54C3C07: execve (syscall-template.S:78)
+==16701==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==  Address 0x5b8d4e4 is 0 bytes after a block of size 4 alloc'd
+==16701==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16701==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16701== 
+==16685== Invalid read of size 8
+==16685==    at 0x4F65187: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==16685==    by 0x112956: JobsList::JobEntry::getCMDLine[abi:cxx11]() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F83B: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x5b8d4a8 is 24 bytes inside a block of size 80 free'd
+==16685==    at 0x4C3323B: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x117A75: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::deallocate(std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117065: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::deallocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115BE5: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_put_node(std::_List_node<JobsList::JobEntry>*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115748: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_erase(std::_List_iterator<JobsList::JobEntry>) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1144BC: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::remove(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110E7C: JobsList::removeJobById(int) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F751: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Block was alloc'd at
+==16685==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x118183: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::allocate(unsigned long, void const*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117DFC: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::allocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117744: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_get_node() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x116947: std::_List_node<JobsList::JobEntry>* std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_create_node<JobsList::JobEntry const&>(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1158FD: void std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_insert<JobsList::JobEntry const&>(std::_List_iterator<JobsList::JobEntry>, JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x11476D: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::push_back(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110D05: JobsList::addJob(Command*, bool) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D6C7: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685== 
+==16685== Invalid read of size 8
+==16685==    at 0x4F6518A: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==16685==    by 0x112956: JobsList::JobEntry::getCMDLine[abi:cxx11]() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F83B: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x5b8d4b0 is 32 bytes inside a block of size 80 free'd
+==16685==    at 0x4C3323B: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x117A75: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::deallocate(std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117065: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::deallocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115BE5: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_put_node(std::_List_node<JobsList::JobEntry>*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115748: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_erase(std::_List_iterator<JobsList::JobEntry>) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1144BC: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::remove(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110E7C: JobsList::removeJobById(int) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F751: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Block was alloc'd at
+==16685==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x118183: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::allocate(unsigned long, void const*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117DFC: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::allocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117744: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_get_node() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x116947: std::_List_node<JobsList::JobEntry>* std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_create_node<JobsList::JobEntry const&>(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1158FD: void std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_insert<JobsList::JobEntry const&>(std::_List_iterator<JobsList::JobEntry>, JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x11476D: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::push_back(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110D05: JobsList::addJob(Command*, bool) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D6C7: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685== 
+==16685== Invalid read of size 8
+==16685==    at 0x4C387E0: memmove (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x116F87: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x112956: JobsList::JobEntry::getCMDLine[abi:cxx11]() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F83B: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x5b8d4b8 is 40 bytes inside a block of size 80 free'd
+==16685==    at 0x4C3323B: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x117A75: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::deallocate(std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117065: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::deallocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115BE5: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_put_node(std::_List_node<JobsList::JobEntry>*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115748: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_erase(std::_List_iterator<JobsList::JobEntry>) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1144BC: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::remove(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110E7C: JobsList::removeJobById(int) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F751: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Block was alloc'd at
+==16685==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x118183: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::allocate(unsigned long, void const*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117DFC: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::allocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117744: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_get_node() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x116947: std::_List_node<JobsList::JobEntry>* std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_create_node<JobsList::JobEntry const&>(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1158FD: void std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_insert<JobsList::JobEntry const&>(std::_List_iterator<JobsList::JobEntry>, JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x11476D: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::push_back(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110D05: JobsList::addJob(Command*, bool) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D6C7: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685== 
+==16685== Invalid read of size 2
+==16685==    at 0x4C38750: memmove (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x116F87: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x112956: JobsList::JobEntry::getCMDLine[abi:cxx11]() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F83B: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x5b8d4c0 is 48 bytes inside a block of size 80 free'd
+==16685==    at 0x4C3323B: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x117A75: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::deallocate(std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117065: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::deallocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115BE5: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_put_node(std::_List_node<JobsList::JobEntry>*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115748: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_erase(std::_List_iterator<JobsList::JobEntry>) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1144BC: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::remove(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110E7C: JobsList::removeJobById(int) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F751: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Block was alloc'd at
+==16685==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x118183: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::allocate(unsigned long, void const*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117DFC: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::allocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117744: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_get_node() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x116947: std::_List_node<JobsList::JobEntry>* std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_create_node<JobsList::JobEntry const&>(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1158FD: void std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_insert<JobsList::JobEntry const&>(std::_List_iterator<JobsList::JobEntry>, JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x11476D: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::push_back(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110D05: JobsList::addJob(Command*, bool) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D6C7: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685== 
+==16685== Invalid read of size 1
+==16685==    at 0x4C38788: memmove (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x116F87: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x112956: JobsList::JobEntry::getCMDLine[abi:cxx11]() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F83B: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x5b8d4c2 is 50 bytes inside a block of size 80 free'd
+==16685==    at 0x4C3323B: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x117A75: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::deallocate(std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117065: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::deallocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115BE5: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_put_node(std::_List_node<JobsList::JobEntry>*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115748: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_erase(std::_List_iterator<JobsList::JobEntry>) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1144BC: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::remove(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110E7C: JobsList::removeJobById(int) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F751: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Block was alloc'd at
+==16685==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x118183: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::allocate(unsigned long, void const*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117DFC: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::allocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117744: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_get_node() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x116947: std::_List_node<JobsList::JobEntry>* std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_create_node<JobsList::JobEntry const&>(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1158FD: void std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_insert<JobsList::JobEntry const&>(std::_List_iterator<JobsList::JobEntry>, JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x11476D: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::push_back(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110D05: JobsList::addJob(Command*, bool) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D6C7: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685== 
+--16702-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16702-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16702== Invalid write of size 1
+==16702==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16702==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==  Address 0x5b9d86a is 0 bytes after a block of size 10 alloc'd
+==16702==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16702==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702== 
+==16702== Invalid write of size 1
+==16702==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16702==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==  Address 0x5b9d8b4 is 0 bytes after a block of size 4 alloc'd
+==16702==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16702==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702== 
+==16702== Invalid write of size 1
+==16702==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16702==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==  Address 0x5b9d902 is 0 bytes after a block of size 2 alloc'd
+==16702==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16702==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702== 
+==16702== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16702==    at 0x54C3C07: execve (syscall-template.S:78)
+==16702==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==  Address 0x5b9d8b4 is 0 bytes after a block of size 4 alloc'd
+==16702==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16702==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16702== 
+==16685== Syscall param waitid(infop) points to unaddressable byte(s)
+==16685==    at 0x54C357A: waitid (waitid.c:29)
+==16685==    by 0x11025B: BackgroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==16685== 
+--16703-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16703-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16703== Invalid write of size 1
+==16703==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16703==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==  Address 0x5ba4457 is 0 bytes after a block of size 7 alloc'd
+==16703==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16703==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703== 
+==16703== Invalid write of size 1
+==16703==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16703==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==  Address 0x5ba44a4 is 0 bytes after a block of size 4 alloc'd
+==16703==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16703==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703== 
+==16703== Invalid write of size 1
+==16703==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16703==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==  Address 0x5ba44f2 is 0 bytes after a block of size 2 alloc'd
+==16703==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16703==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703== 
+==16703== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16703==    at 0x54C3C07: execve (syscall-template.S:78)
+==16703==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==  Address 0x5ba44a4 is 0 bytes after a block of size 4 alloc'd
+==16703==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16703==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16703== 
+--16704-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16704-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16704== Invalid write of size 1
+==16704==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16704==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==  Address 0x5ba44d7 is 0 bytes after a block of size 7 alloc'd
+==16704==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16704==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704== 
+==16704== Invalid write of size 1
+==16704==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16704==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==  Address 0x5ba4524 is 0 bytes after a block of size 4 alloc'd
+==16704==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16704==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704== 
+==16704== Invalid write of size 1
+==16704==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16704==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==  Address 0x5ba4572 is 0 bytes after a block of size 2 alloc'd
+==16704==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16704==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704== 
+==16704== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16704==    at 0x54C3C07: execve (syscall-template.S:78)
+==16704==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==  Address 0x5ba4524 is 0 bytes after a block of size 4 alloc'd
+==16704==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16704==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16704== 
+--16705-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16705-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16705== Invalid write of size 1
+==16705==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16705==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==  Address 0x5ba791a is 0 bytes after a block of size 10 alloc'd
+==16705==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16705==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705== 
+==16705== Invalid write of size 1
+==16705==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16705==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==  Address 0x5ba7964 is 0 bytes after a block of size 4 alloc'd
+==16705==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16705==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705== 
+==16705== Invalid write of size 1
+==16705==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16705==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==  Address 0x5ba79b2 is 0 bytes after a block of size 2 alloc'd
+==16705==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16705==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705== 
+==16705== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16705==    at 0x54C3C07: execve (syscall-template.S:78)
+==16705==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==  Address 0x5ba7964 is 0 bytes after a block of size 4 alloc'd
+==16705==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16705==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16705== 
+--16706-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16706-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16706== Invalid write of size 1
+==16706==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16706==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==  Address 0x5ba7a2a is 0 bytes after a block of size 10 alloc'd
+==16706==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16706==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706== 
+==16706== Invalid write of size 1
+==16706==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16706==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==  Address 0x5ba7a74 is 0 bytes after a block of size 4 alloc'd
+==16706==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16706==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706== 
+==16706== Invalid write of size 1
+==16706==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16706==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==  Address 0x5ba7ac2 is 0 bytes after a block of size 2 alloc'd
+==16706==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16706==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706== 
+==16706== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16706==    at 0x54C3C07: execve (syscall-template.S:78)
+==16706==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==  Address 0x5ba7a74 is 0 bytes after a block of size 4 alloc'd
+==16706==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16706==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16706== 
+--16707-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16707-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16707== Invalid write of size 1
+==16707==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16707==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==  Address 0x5ba7b3a is 0 bytes after a block of size 10 alloc'd
+==16707==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16707==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707== 
+==16707== Invalid write of size 1
+==16707==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16707==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==  Address 0x5ba7b84 is 0 bytes after a block of size 4 alloc'd
+==16707==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16707==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707== 
+==16707== Invalid write of size 1
+==16707==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16707==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==  Address 0x5ba7bd2 is 0 bytes after a block of size 2 alloc'd
+==16707==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16707==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707== 
+==16707== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16707==    at 0x54C3C07: execve (syscall-template.S:78)
+==16707==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==  Address 0x5ba7b84 is 0 bytes after a block of size 4 alloc'd
+==16707==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16707==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16707== 
+--16685-- REDIR: 0x5476a30 (libc.so.6:free) redirected to 0x4c32cd0 (free)
+--16708-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16708-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16708== Invalid write of size 1
+==16708==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16708==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==  Address 0x5bc8ef7 is 0 bytes after a block of size 7 alloc'd
+==16708==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16708==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708== 
+==16708== Invalid write of size 1
+==16708==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16708==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==  Address 0x5bc8f44 is 0 bytes after a block of size 4 alloc'd
+==16708==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16708==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708== 
+==16708== Invalid write of size 1
+==16708==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16708==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==  Address 0x5bc8f92 is 0 bytes after a block of size 2 alloc'd
+==16708==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16708==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708== 
+==16708== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16708==    at 0x54C3C07: execve (syscall-template.S:78)
+==16708==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==  Address 0x5bc8f44 is 0 bytes after a block of size 4 alloc'd
+==16708==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16708==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16708== 
+--16709-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16709-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16709== Invalid write of size 1
+==16709==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16709==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==  Address 0x5bdffa9 is 0 bytes after a block of size 9 alloc'd
+==16709==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16709==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709== 
+==16709== Invalid write of size 1
+==16709==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16709==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==  Address 0x5bdfff4 is 0 bytes after a block of size 4 alloc'd
+==16709==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16709==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709== 
+==16709== Invalid write of size 1
+==16709==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16709==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==  Address 0x5be0042 is 0 bytes after a block of size 2 alloc'd
+==16709==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16709==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709== 
+==16709== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16709==    at 0x54C3C07: execve (syscall-template.S:78)
+==16709==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==  Address 0x5bdfff4 is 0 bytes after a block of size 4 alloc'd
+==16709==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16709==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16709== 
+--16710-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16710-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16710== Invalid write of size 1
+==16710==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16710==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==  Address 0x5be3409 is 0 bytes after a block of size 9 alloc'd
+==16710==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16710==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710== 
+==16710== Invalid write of size 1
+==16710==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16710==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==  Address 0x5be3454 is 0 bytes after a block of size 4 alloc'd
+==16710==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16710==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710== 
+==16710== Invalid write of size 1
+==16710==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16710==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==  Address 0x5be34a2 is 0 bytes after a block of size 2 alloc'd
+==16710==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16710==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710== 
+==16710== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16710==    at 0x54C3C07: execve (syscall-template.S:78)
+==16710==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==  Address 0x5be3454 is 0 bytes after a block of size 4 alloc'd
+==16710==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16710==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16710== 
+--16711-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16711-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16711== Invalid write of size 1
+==16711==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16711==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==  Address 0x5be3489 is 0 bytes after a block of size 9 alloc'd
+==16711==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16711==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711== 
+==16711== Invalid write of size 1
+==16711==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16711==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==  Address 0x5be34d4 is 0 bytes after a block of size 4 alloc'd
+==16711==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16711==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711== 
+==16711== Invalid write of size 1
+==16711==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16711==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==  Address 0x5be3522 is 0 bytes after a block of size 2 alloc'd
+==16711==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16711==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711== 
+==16711== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16711==    at 0x54C3C07: execve (syscall-template.S:78)
+==16711==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==  Address 0x5be34d4 is 0 bytes after a block of size 4 alloc'd
+==16711==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16711==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16711== 
+--16712-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16712-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16712== Invalid write of size 1
+==16712==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16712==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==  Address 0x5be72f9 is 0 bytes after a block of size 9 alloc'd
+==16712==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16712==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712== 
+==16712== Invalid write of size 1
+==16712==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16712==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==  Address 0x5be7344 is 0 bytes after a block of size 4 alloc'd
+==16712==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16712==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712== 
+==16712== Invalid write of size 1
+==16712==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16712==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==  Address 0x5be7392 is 0 bytes after a block of size 2 alloc'd
+==16712==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16712==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712== 
+==16712== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16712==    at 0x54C3C07: execve (syscall-template.S:78)
+==16712==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==  Address 0x5be7344 is 0 bytes after a block of size 4 alloc'd
+==16712==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16712==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16712== 
+--16713-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16713-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16713== Invalid write of size 1
+==16713==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16713==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==  Address 0x5bec18e is 0 bytes after a block of size 30 alloc'd
+==16713==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16713==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713== 
+==16713== Invalid write of size 1
+==16713==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16713==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==  Address 0x5bec1d4 is 0 bytes after a block of size 4 alloc'd
+==16713==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16713==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713== 
+==16713== Invalid write of size 1
+==16713==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16713==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==  Address 0x5bec222 is 0 bytes after a block of size 2 alloc'd
+==16713==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16713==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713== 
+==16713== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16713==    at 0x54C3C07: execve (syscall-template.S:78)
+==16713==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==  Address 0x5bec1d4 is 0 bytes after a block of size 4 alloc'd
+==16713==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16713==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16713== 
+--16714-- REDIR: 0x4ed1330 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c32830 (operator new[](unsigned long))
+--16714-- REDIR: 0x5495320 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c34dd0 (strcpy)
+==16714== Invalid write of size 1
+==16714==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16714==    by 0x1119DD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==  Address 0x5bec25f is 0 bytes after a block of size 15 alloc'd
+==16714==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16714==    by 0x1119B2: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714== 
+==16714== Invalid write of size 1
+==16714==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16714==    by 0x111A59: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==  Address 0x5bec2a4 is 0 bytes after a block of size 4 alloc'd
+==16714==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16714==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714== 
+==16714== Invalid write of size 1
+==16714==    at 0x4C34E0D: strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16714==    by 0x111AD5: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==  Address 0x5bec2f2 is 0 bytes after a block of size 2 alloc'd
+==16714==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16714==    by 0x111AAD: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714== 
+==16714== Syscall param execve(argv[i]) points to unaddressable byte(s)
+==16714==    at 0x54C3C07: execve (syscall-template.S:78)
+==16714==    by 0x111B29: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==  Address 0x5bec2a4 is 0 bytes after a block of size 4 alloc'd
+==16714==    at 0x4C3289F: operator new[](unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16714==    by 0x111A31: ExternalCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x10D5FC: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16714== 
+==16685== 
+==16685== HEAP SUMMARY:
+==16685==     in use at exit: 128 bytes in 2 blocks
+==16685==   total heap usage: 1,537 allocs, 1,535 frees, 410,961 bytes allocated
+==16685== 
+==16685== Searching for pointers to 2 not-freed blocks
+==16685== Checked 111,296 bytes
+==16685== 
+==16685== LEAK SUMMARY:
+==16685==    definitely lost: 0 bytes in 0 blocks
+==16685==    indirectly lost: 0 bytes in 0 blocks
+==16685==      possibly lost: 0 bytes in 0 blocks
+==16685==    still reachable: 128 bytes in 2 blocks
+==16685==         suppressed: 0 bytes in 0 blocks
+==16685== Reachable blocks (those to which a pointer was found) are not shown.
+==16685== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==16685== 
+==16685== ERROR SUMMARY: 57 errors from 6 contexts (suppressed: 0 from 0)
+==16685== 
+==16685== 1 errors in context 1 of 6:
+==16685== Syscall param waitid(infop) points to unaddressable byte(s)
+==16685==    at 0x54C357A: waitid (waitid.c:29)
+==16685==    by 0x11025B: BackgroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==16685== 
+==16685== 
+==16685== 4 errors in context 2 of 6:
+==16685== Invalid read of size 1
+==16685==    at 0x4C38788: memmove (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x116F87: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x112956: JobsList::JobEntry::getCMDLine[abi:cxx11]() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F83B: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x5b8d4c2 is 50 bytes inside a block of size 80 free'd
+==16685==    at 0x4C3323B: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x117A75: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::deallocate(std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117065: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::deallocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115BE5: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_put_node(std::_List_node<JobsList::JobEntry>*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115748: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_erase(std::_List_iterator<JobsList::JobEntry>) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1144BC: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::remove(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110E7C: JobsList::removeJobById(int) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F751: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Block was alloc'd at
+==16685==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x118183: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::allocate(unsigned long, void const*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117DFC: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::allocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117744: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_get_node() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x116947: std::_List_node<JobsList::JobEntry>* std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_create_node<JobsList::JobEntry const&>(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1158FD: void std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_insert<JobsList::JobEntry const&>(std::_List_iterator<JobsList::JobEntry>, JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x11476D: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::push_back(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110D05: JobsList::addJob(Command*, bool) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D6C7: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685== 
+==16685== 
+==16685== 13 errors in context 3 of 6:
+==16685== Invalid read of size 2
+==16685==    at 0x4C38750: memmove (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x116F87: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x112956: JobsList::JobEntry::getCMDLine[abi:cxx11]() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F83B: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x5b8d4c0 is 48 bytes inside a block of size 80 free'd
+==16685==    at 0x4C3323B: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x117A75: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::deallocate(std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117065: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::deallocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115BE5: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_put_node(std::_List_node<JobsList::JobEntry>*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115748: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_erase(std::_List_iterator<JobsList::JobEntry>) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1144BC: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::remove(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110E7C: JobsList::removeJobById(int) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F751: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Block was alloc'd at
+==16685==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x118183: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::allocate(unsigned long, void const*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117DFC: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::allocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117744: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_get_node() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x116947: std::_List_node<JobsList::JobEntry>* std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_create_node<JobsList::JobEntry const&>(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1158FD: void std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_insert<JobsList::JobEntry const&>(std::_List_iterator<JobsList::JobEntry>, JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x11476D: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::push_back(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110D05: JobsList::addJob(Command*, bool) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D6C7: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685== 
+==16685== 
+==16685== 13 errors in context 4 of 6:
+==16685== Invalid read of size 8
+==16685==    at 0x4C387E0: memmove (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x116F87: void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x112956: JobsList::JobEntry::getCMDLine[abi:cxx11]() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F83B: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x5b8d4b8 is 40 bytes inside a block of size 80 free'd
+==16685==    at 0x4C3323B: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x117A75: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::deallocate(std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117065: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::deallocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115BE5: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_put_node(std::_List_node<JobsList::JobEntry>*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115748: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_erase(std::_List_iterator<JobsList::JobEntry>) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1144BC: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::remove(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110E7C: JobsList::removeJobById(int) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F751: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Block was alloc'd at
+==16685==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x118183: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::allocate(unsigned long, void const*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117DFC: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::allocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117744: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_get_node() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x116947: std::_List_node<JobsList::JobEntry>* std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_create_node<JobsList::JobEntry const&>(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1158FD: void std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_insert<JobsList::JobEntry const&>(std::_List_iterator<JobsList::JobEntry>, JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x11476D: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::push_back(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110D05: JobsList::addJob(Command*, bool) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D6C7: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685== 
+==16685== 
+==16685== 13 errors in context 5 of 6:
+==16685== Invalid read of size 8
+==16685==    at 0x4F6518A: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==16685==    by 0x112956: JobsList::JobEntry::getCMDLine[abi:cxx11]() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F83B: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x5b8d4b0 is 32 bytes inside a block of size 80 free'd
+==16685==    at 0x4C3323B: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x117A75: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::deallocate(std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117065: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::deallocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115BE5: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_put_node(std::_List_node<JobsList::JobEntry>*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115748: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_erase(std::_List_iterator<JobsList::JobEntry>) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1144BC: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::remove(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110E7C: JobsList::removeJobById(int) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F751: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Block was alloc'd at
+==16685==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x118183: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::allocate(unsigned long, void const*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117DFC: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::allocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117744: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_get_node() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x116947: std::_List_node<JobsList::JobEntry>* std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_create_node<JobsList::JobEntry const&>(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1158FD: void std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_insert<JobsList::JobEntry const&>(std::_List_iterator<JobsList::JobEntry>, JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x11476D: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::push_back(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110D05: JobsList::addJob(Command*, bool) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D6C7: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685== 
+==16685== 
+==16685== 13 errors in context 6 of 6:
+==16685== Invalid read of size 8
+==16685==    at 0x4F65187: std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::basic_string(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.25)
+==16685==    by 0x112956: JobsList::JobEntry::getCMDLine[abi:cxx11]() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F83B: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Address 0x5b8d4a8 is 24 bytes inside a block of size 80 free'd
+==16685==    at 0x4C3323B: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x117A75: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::deallocate(std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117065: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::deallocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, std::_List_node<JobsList::JobEntry>*, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115BE5: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_put_node(std::_List_node<JobsList::JobEntry>*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x115748: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_erase(std::_List_iterator<JobsList::JobEntry>) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1144BC: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::remove(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110E7C: JobsList::removeJobById(int) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10F751: ForegroundCommand::execute() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D7D6: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==  Block was alloc'd at
+==16685==    at 0x4C3217F: operator new(unsigned long) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16685==    by 0x118183: __gnu_cxx::new_allocator<std::_List_node<JobsList::JobEntry> >::allocate(unsigned long, void const*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117DFC: std::allocator_traits<std::allocator<std::_List_node<JobsList::JobEntry> > >::allocate(std::allocator<std::_List_node<JobsList::JobEntry> >&, unsigned long) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x117744: std::__cxx11::_List_base<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_get_node() (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x116947: std::_List_node<JobsList::JobEntry>* std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_create_node<JobsList::JobEntry const&>(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x1158FD: void std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::_M_insert<JobsList::JobEntry const&>(std::_List_iterator<JobsList::JobEntry>, JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x11476D: std::__cxx11::list<JobsList::JobEntry, std::allocator<JobsList::JobEntry> >::push_back(JobsList::JobEntry const&) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x110D05: JobsList::addJob(Command*, bool) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x10D6C7: SmallShell::executeCommand(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, TimeOutList::TimeOutEntry*) (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685==    by 0x118F93: main (in /home/student/Desktop/OS-HW1_ver1/smash)
+==16685== 
+==16685== ERROR SUMMARY: 57 errors from 6 contexts (suppressed: 0 from 0)

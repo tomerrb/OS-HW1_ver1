@@ -1,12 +1,7 @@
 #include <iostream>
-#include <unistd.h>
-#include <sys/wait.h>
 #include <signal.h>
-#include <csignal>
 #include "Commands.h"
 #include "signals.h"
-#include "string.h"
-#include <stdlib.h>
 #include "stdio.h"
 
 std::string small_shell_name = INIT_SMALL_SHELL_NAME;

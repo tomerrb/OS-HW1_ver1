@@ -1,11 +1,9 @@
 #include <unistd.h>
 #include <string.h>
-#include "string.h"
 #include <iostream>
 #include <vector>
 #include <sstream>
 #include <sys/wait.h>
-#include <iomanip>
 #include "Commands.h"
 #include <limits.h>
 #include <algorithm>
@@ -76,18 +74,7 @@ string _removeBackgroundSign(string cmd_line) {
   string result = cmd_line.substr(0, idx);
   return result;
   // truncate the command line string up to the last non-space character
-//  cmd_line[cmd_line.find_last_not_of(WHITESPACE, idx) + 1] = 0;
 }
-
-// TODO: Add your implementation for classes in Commands.h 
-
-//SmallShell::SmallShell() {
-//// TODO: add your implementation
-//}
-//
-//SmallShell::~SmallShell() {
-//// TODO: add your implementation
-//}
 
 /**
 * Creates and returns a pointer to Command class which matches the given command line (cmd_line)
@@ -176,9 +163,6 @@ Command * SmallShell::CreateCommand(string cmd_line) {
   {
       return new TimeOutCommand(file_int, cmd_to_execute_s);
   }
-
-  // else if ...
-  // .....
   else {
       return new ExternalCommand(file_int, cmd_to_execute_s); //cmd_to_execute_s.c_str());
   }
@@ -209,33 +193,19 @@ void PipeCommand::execute(){
     SmallShell& smash = SmallShell::getInstance();
     int fd[2];
     pipe(fd);
-//    if(fork() == 0){
-//        setpgrp();
-        // Son
-//        close(fd[0]);
-//        Command* cmd1 = smash.CreateCommand(this -> cmd_line_1);
-//        cmd1 -> changeFileInt(fd[1]);
-//        cmd1 -> execute();
-////        close(fd[1]);
-//        exit(0);
         int old_fd_redirect = dup(this -> fd_redirect);
         dup2(fd[1], this -> fd_redirect);
         smash.executeCommand(this -> cmd_line_1);
         dup2(old_fd_redirect, this -> fd_redirect);
         close(fd[1]);
-//        exit(0);
 
-//    }else{
-//        close(fd[1]);
-        //Father
-//        Command* cmd2 = smash.CreateCommand(this -> cmd_line_2);
         int old_fd = dup(0);
         dup2(fd[0], 0);
-//        cmd2 -> execute();
+
         smash.executeCommand(this -> cmd_line_2);
         dup2(old_fd, 0);
         close(fd[0]);
-//    }
+
 }
 
 pid_t SmallShell::executeCommand(string cmd_line, bool is_timeout, TimeOutList::TimeOutEntry* toe_ptr) {
@@ -304,7 +274,6 @@ pid_t SmallShell::executeCommand(string cmd_line, bool is_timeout, TimeOutList::
 
   return pid;
 
-  // Please note that you must fork smash process for some commands (e.g., external commands....)
 }
 
 QuitCommand::QuitCommand(int file_int, string cmd_line, JobsList* jobs): jobs(jobs){
@@ -333,7 +302,6 @@ void QuitCommand::execute(){
             string temp_str =  "smash: sending SIGKILL signal to " + to_string(jobs -> getNumOfJobs()) + " jobs:" + "\n";
             write(file_int, temp_str.c_str(), strlen(temp_str.c_str()));
 
-//            std::cout << "smash: sending SIGKILL signal to " << jobs -> getNumOfJobs()<< " jobs:" << endl;
             jobs -> killAllJobs(this -> getFileInt());
         }
     }
@@ -354,12 +322,6 @@ void TimeOutList::removeTimeOutEntry(pid_t pid_to_remove){
     std::list<TimeOutEntry>::iterator it;
     for (it = timeoutJobs.begin(); it != timeoutJobs.end(); ){
         TimeOutEntry temp = *it;
-//        if(temp.getProcessID() == pid_to_remove){
-//            // Kill Timer
-//            kill(temp.getTimerProcessID(), SIGKILL);
-//            int status;
-//            waitpid(temp.getTimerProcessID(), &status, WUNTRACED);
-//        }
         ++it;
         if(temp.getProcessID() == pid_to_remove){
             // Remove from list
@@ -413,12 +375,6 @@ void TimeOutCommand::execute(){
     if(timer_pid == 0){
         setpgrp();
         // Son
-//        usleep((this -> duration)*1000000);
-
-//        clock_t time_end = clock() + (this -> duration);
-//        while(clock() < time_end)
-//        {
-//        }
 
         sleep(this -> duration);
 
@@ -460,7 +416,6 @@ void JobsList::killAllJobs(int file_int){
 
         string temp_str =  to_string(temp.getProcessID()) + ": " + cmd_line_to_print + "\n";
         write(file_int, temp_str.c_str(), strlen(temp_str.c_str()));
-//        std::cout  << temp.getProcessID() << ": " << temp.getCMDLine() << endl;
         kill(temp.getProcessID(), SIGKILL);
         ++it;
         this->jobs.remove(temp);
@@ -610,7 +565,6 @@ void ForegroundCommand::execute(){
 
         string temp =  cmd_line_to_print + " : " + to_string(pid_to_fg) + "\n";
         write(this -> file_int, temp.c_str(), strlen(temp.c_str()));
-//        std::cout << je_ptr -> getCMDLine() << " : " << pid_to_fg << endl;
     }
 
     int status;
@@ -753,7 +707,7 @@ void JobsList::addJob(Command *cmd, bool isStopped) {
     this->getLastJob(&new_job_id);
     new_job_id++;
     JobEntry je = JobEntry(new_job_id, cmd->getCMDLine(), cmd->getPID(), time(NULL));
-    this -> jobs.push_back(je);//.insert(je);
+    this -> jobs.push_back(je);
     this -> jobs.sort();
 }
 
@@ -763,7 +717,7 @@ void JobsList::addJobEntry(JobEntry je, bool isStopped) {
     }else{
         je.resume();
     }
-    this -> jobs.push_back(je);//.insert(je);
+    this -> jobs.push_back(je);
     this -> jobs.sort();
 }
 
@@ -841,7 +795,6 @@ ChangePromptCommand::ChangePromptCommand(int file_int, string cmd_line): cmd_lin
     this -> file_int = file_int;
 }
 void ChangePromptCommand::execute(){
-//    char** args = (char**)malloc(COMMAND_MAX_ARGS*sizeof(char*));
     std::vector<string> cmd_args = _parseCommandLine(this->cmd_line);
 
     if(cmd_args.size() == 1){
@@ -869,9 +822,6 @@ void ChangeDirCommand::execute()
   {
     char* buf = new char [PATH_MAX] ;
     getcwd(buf, PATH_MAX);
-//    if(prevPwd != prevPwd) {
-//        prevPwd = "";
-//    }
     string new_pwd = cmd_args[1];
     int ret = chdir(new_pwd.c_str());
     if (ret == -1)
@@ -915,9 +865,20 @@ void ExternalCommand::execute()
 
     char* temp_str = new char[strlen(temp.c_str())];
     strcpy(temp_str, temp.c_str());
-    char* args[]= {"bash", "-c", temp_str, NULL};
+
+    string bash_str = "bash";
+    char* bash_c_str = new char[strlen(bash_str.c_str())];
+    strcpy(bash_c_str, bash_str.c_str());
+
+    string _c_str = "-c";
+    char* _c_c_str = new char[strlen(_c_str.c_str())];
+    strcpy(_c_c_str, _c_str.c_str());
+
+    char* args[]= {bash_c_str, _c_c_str, temp_str, NULL};
     execv("/bin/bash", args);
     delete[] temp_str;
+    delete[] bash_c_str;
+    delete[] _c_c_str;
 
     exit(0);
 }

@@ -7,8 +7,6 @@
 using std::string;
 using std::list;
 
-#define COMMAND_ARGS_MAX_LENGTH (200)
-#define COMMAND_MAX_ARGS (20)
 #define INIT_SMALL_SHELL_NAME "smash"
 
 class Command {
@@ -29,9 +27,6 @@ protected:
   string getCMDLine(){return cmd_line;};
   int getFileInt(){return file_int;};
   void changeFileInt(int new_file_int){ this -> file_int = new_file_int;}
-  //virtual void prepare();
-  //virtual void cleanup();
-  // TODO: Add your extra methods if needed
 };
 
 class BuiltInCommand : public Command {
@@ -63,20 +58,16 @@ private:
 };
 
 class RedirectionCommand : public Command {
- // TODO: Add your data members
  public:
   explicit RedirectionCommand(int file_int, string cmd_line);
   virtual ~RedirectionCommand() {}
   void execute() override;
-  //void prepare() override;
-  //void cleanup() override;
 };
 
 class ChangeDirCommand : public BuiltInCommand {
   private:
   string cmd_line;
   public:
-// TODO: Add your data members public:
   ChangeDirCommand(int file_int, string cmd_line);
   virtual ~ChangeDirCommand() {}
   void execute() override;
@@ -130,12 +121,10 @@ public:
         bool operator<(TimeOutEntry const& je) const;
         bool operator==(TimeOutEntry const& je) const;
         int getProcessID(){return processID;};
-//        int getTimerProcessID(){return timerProcessID;};
         int getDuration(){return duration;};
         time_t getTimestamp(){return timestamp;};
         bool isTimedOut(){
             time_t elapsed_time = difftime(time(nullptr), timestamp);
-//            std::cout << "elapsed time is: " << elapsed_time << "\n";
             return elapsed_time >= duration;
         };
         string getCMDLine(){return cmd_line;};
@@ -151,10 +140,6 @@ public:
     void removeTimeOutEntry(pid_t pid_to_remove);
     friend void alarmHandler(int sig_num);
     TimeOutEntry* getTimeOutEntry(pid_t pid);
-//    void removeFinishedJobs();
-//    bool isEmpty(){return jobs.empty();};
-//    int getNumOfJobs(){return jobs.size();};
-    // TODO: Add extra methods or modify exisitng ones as needed
 };
 
 class JobsList {
@@ -183,7 +168,6 @@ public:
   };
 private:
     list<JobEntry> jobs;
-//    int nextJobID;
 public:
   JobsList() = default;
   ~JobsList() = default;
@@ -198,7 +182,6 @@ public:
   JobEntry *getLastStoppedJob(int *jobId);
   bool isEmpty(){return jobs.empty();};
   int getNumOfJobs(){return jobs.size();};
-  // TODO: Add extra methods or modify exisitng ones as needed
 };
 
 class JobsCommand : public BuiltInCommand {
@@ -295,7 +278,6 @@ class SmallShell {
   friend void TimeOutCommand::execute();
   friend void QuitCommand::execute();
 
-  // TODO: add extra methods as needed
 };
 
 #endif //SMASH_COMMAND_H_
